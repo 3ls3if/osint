@@ -3,49 +3,54 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OSINT Dashboard</title>
+  <title>OSINT Navigator</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
   
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
   
   <style>
   
-    :root {
+    :root 
+	{
       --bg: #f5f7fa;
       --card-bg: #ffffff;
       --text: #1f2937;
-      --muted: #6b7280;
+      --muted: #111827;
       --primary: #3b82f6;
-      --primary-hover: #2563eb;
-      --radius: 0.75rem;
+      --primary-hover: #a5d8ff;
+      --radius: 0.5rem;
       --gap: 1rem;
       --transition: 0.3s ease;
     }
-    [data-theme="dark"] {
+    [data-theme="dark"] 
+	{
       --bg: #1f2937;
       --card-bg: #2e3a47;
       --text: #e5e7eb;
-      --muted: #9ca3af;
-      --primary: #60a5fa;
-      --primary-hover: #3b82f6;
+      --muted: #f3f4f6;
+      --primary: #93c5fd; // cards titles color
+      --primary-hover: #2563eb;
     }
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
-	html, body {
+	html, body 
+	{
 		max-width: 100%;
 		overflow-x: hidden;
 	}
-    body {
+    body 
+	{
       font-family: 'Inter', sans-serif;
       background: var(--bg);
       color: var(--text);
       padding: var(--gap);
       transition: background var(--transition), color var(--transition);
     }
-    header {
+    header 
+	{
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -56,23 +61,29 @@
       margin-bottom: var(--gap);
       z-index: 10;
     }
-    header h1 {
+    header h1 
+	{
       font-size: 2rem;
       font-weight: 700;
     }
-    .toggle {
+	/* darkmode button */
+    .toggle 
+	{
       background: none;
       border: none;
       cursor: pointer;
-      font-size: 1.5rem;
+      font-size: 2rem;
       color: var(--muted);
       border-radius: 999px;
-      padding: 0.3rem;
+      padding: 0.1rem;
       transition: color var(--transition), background var(--transition);
     }
-    .toggle:hover {
-      background-color: rgba(255, 255, 255, 0.1);
+    .toggle:hover 
+	{
+      transform: scale(1.05);
+	  box-shadow: 0 0 2px rgba(52, 152, 219, 0.6);
     }
+	
     .search-bar,
     .filter-bar {
       display: flex;
@@ -94,7 +105,8 @@
       border-color: var(--primary);
       outline: none;
     }
-    .search-bar button {
+    .search-bar button 
+	{
       padding: 0.75rem 1.5rem;
       background: var(--primary);
       border: none;
@@ -104,26 +116,31 @@
       cursor: pointer;
       transition: background var(--transition);
     }
-    .search-bar button:hover {
+    .search-bar button:hover 
+	{
       background: var(--primary-hover);
     }
-    .section {
+    .section 
+	{
       margin-top: calc(var(--gap) * 2);
     }
-    .section h2 {
-      font-size: 1.25rem;
+    .section h2 
+	{
+      font-size: 1.6rem;
       margin-bottom: var(--gap);
       color: var(--muted);
-      border-bottom: 2px solid var(--primary);
+      border-bottom: 1.5px solid var(--primary);
       padding-bottom: 0.25rem;
       transition: color var(--transition), border-color var(--transition);
     }
-    .grid {
+    .grid 
+	{
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: var(--gap);
     }
-    .card {
+    .card 
+	{
       background: var(--card-bg);
       padding: var(--gap);
       border-radius: var(--radius);
@@ -132,12 +149,14 @@
       position: relative;
       transition: transform var(--transition), box-shadow var(--transition);
     }
-    .card:hover {
+    .card:hover 
+	{
       transform: translateY(-4px);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
       z-index: 5;
     }
-    .card a {
+    .card a 
+	{
       display: block;
       color: var(--primary);
       font-weight: 500;
@@ -145,10 +164,12 @@
       margin-bottom: 0.5rem;
       transition: color var(--transition);
     }
-    .card a:hover {
+    .card a:hover 
+	{
       color: var(--primary-hover);
     }
-    .tooltip {
+    .tooltip 
+	{
       position: absolute;
       bottom: 100%;
       left: 50%;
@@ -163,20 +184,22 @@
       pointer-events: none;
       transition: opacity var(--transition), transform var(--transition);
     }
-    .card:hover .tooltip {
+    .card:hover .tooltip 
+	{
       opacity: 1;
-      transform: translateX(-50%) translateY(-0.75rem);
-	  
+      transform: translateX(-50%) translateY(-0.75rem);	  
     }
 	
 	/* === HOW IT WORKS SECTION STYLES === */
 	
-	.dashboard-title-wrapper {
+	.dashboard-title-wrapper 
+	{
 	  position: relative;
 	  display: inline-block;
 	}
 
-	.dashboard-tooltip {
+	.dashboard-tooltip 
+	{
 	  visibility: hidden;
 	  opacity: 0;
 	  width: 360px;
@@ -196,21 +219,25 @@
 	}
 
 	/* Show tooltip on hover */
-	.dashboard-title-wrapper:hover .dashboard-tooltip {
+	.dashboard-title-wrapper:hover .dashboard-tooltip 
+	{
 	  visibility: visible;
 	  opacity: 1;
 	}
 
 	/* Responsive: prevent overflow on right side */
-	@media (max-width: 600px) {
-	  .dashboard-tooltip {
+	@media (max-width: 600px) 
+	{
+	  .dashboard-tooltip 
+	  {
 		left: auto;
 		right: 0;
 		width: 90vw;
 	  }
 	}
 	
-	.dashboard-tooltip {
+	.dashboard-tooltip 
+	{
 	  overflow-wrap: break-word;
 	  white-space: normal;
 	  max-width: 90vw;
@@ -231,20 +258,32 @@
 	  transform: scale(1.03);
 	}
 
+	.dashboard-title 
+	{
+	  font-size: 3rem;
+	  font-weight: 700;
+	  background: linear-gradient(to right, #38bdf8, #a855f7); /* Light mode: cyan to violet */
+	  -webkit-background-clip: text;
+	  -webkit-text-fill-color: transparent;
+	  background-clip: text;
+	  color: transparent;
+	}
 
 	[data-theme="dark"] .tooltip {
 		color: black; 
 	}
 	
 	/* Style the arrow button*/
-	.favorites-header {
+	.favorites-header 
+	{
 	  display: flex;
 	  align-items: center;
 	  gap: 0.5rem;
 	  line-height: 1;
 	}
 
-	.favorites-launch {
+	.favorites-launch 
+	{
 	  cursor: pointer;
 	  font-size: 2.6rem; // the size of the arrow icon
 	  transition: color 0.3s;
@@ -252,16 +291,250 @@
 	  line-height: 1;
 	  margin-top: -4px; /* ✅ Tweak this for perfect alignment, the location of he arrow */
 	  position: relative; 
-	  top: -4px;
-  
+	  top: -4px;  
+	}
+
+	.favorites-launch:hover 
+	{
+	  color: var(--primary);
+	}
+
+	.tag-wrapper 
+	{
+	  margin-top: 0.5rem;              /* Adds vertical spacing above the tag row */
+	  display: flex;                   /* Enables horizontal layout */
+	  justify-content: center;        /* Centers the tag row horizontally inside the card */
+	}
+	.tag-scroll 
+	{
+	  display: flex;                   /* Aligns tags side by side */
+	  gap: 0.5rem;                     /* Adds spacing between each tag */
+	  overflow: hidden;               /* Prevents extra tags from spilling out (only 3 shown) */
+	}
+	.card .tag 
+	{
+	  display: inline-flex;
+	  align-items: center;
+	  gap: 0.25rem;
+	  background-color: #f3f4f6;   
+	  color: #374151;              
+	  font-size: 0.8rem;
+	  font-weight: 450;
+	  padding: 0.3rem 0.7rem;
+	  border-radius: 6px;
+	  border: none;
+	  white-space: nowrap;
+	  cursor: pointer;
+	}
+	
+	#tag-filter-bar .filter-tag 
+	{
+	  display: inline-flex;
+	  align-items: center;
+	  gap: 0.25rem;
+	  background-color: #f3f4f6;   
+	  color: #374151;              
+	  font-size: 0.85rem;
+	  font-weight: 500;
+	  padding: 0.3rem 0.7rem;
+	  border-radius: 6px;
+	  border: 1px solid #4b5563;
+	  white-space: nowrap;
+	  cursor: pointer;
+	}
+	#tag-filter-bar .filter-tag:hover 
+	{
+	  background-color: #dbefff;       /* Slightly lighter on hover */
+	  color: #1d4ed8;                  /* Brighter text on hover */
+	  box-shadow: 0 1px 4px rgba(0, 0, 0, 1);
+	}
+
+	#tag-filter-bar .filter-tag button 
+	{
+	  background: none;
+	  color: #0e7490;                   /* Matches the text color */
+	  border: none;
+	  font-size: 0.75rem;
+	  cursor: pointer;
+	}
+	#tag-filter-bar 
+	{
+	  margin-top: 1rem;
+	  display: flex;
+	  flex-wrap: wrap;
+	  gap: 0.5rem;
+	  justify-content: center;
+	}
+	
+	 /* INFO BUTTON SHAPE*/
+	.info-button 
+	{
+	  background-color: #60a5fa; /* Soft blue */
+	  color: white;  
+	  width: 34px;
+	  height: 34px;
+	  border-radius: 50%;
+	  display: flex;
+	  align-items: center;
+	  justify-content: center;
+	  padding: 0;
+	  font-size: 18px;
+	  line-height: 1;
+	  border: none;
+	  cursor: pointer;
+	}
+	.info-button:hover
+	{
+	  transform: scale(1.05);
+	  box-shadow: 0 0 10px rgba(52, 152, 219, 0.6);
+	}
+	
+	 /* DARKMODE BUTTON */
+	#theme-toggle 
+	{
+	  background-color: #bfdbfe; /* Soft modern blue */
+	  width: 34px;
+	  height: 34px;
+	  border-radius: 50%;
+	  display: flex;
+	  align-items: center;
+	  justify-content: center;
+	  padding: 0;
+	  font-size: 18px;
+	  line-height: 1;
+	  border: none;
+	  cursor: pointer;
+	}
+	#theme-toggle:hover
+	{
+	  transform: scale(1.05);
+	  box-shadow: 0 0 10px rgba(52, 152, 219, 0.6);
+	}	
+	
+ 
+ /* INFO BUTTON POP UP  */
+	 .modal 
+	 {
+	  display: none; 
+	  position: fixed;
+	  z-index: 1000;
+	  left: 0;
+	  top: 0;
+	  width: 100vw;
+	  height: 100vh;
+	  overflow: auto;
+	  background-color: rgba(0, 0, 0, 0.5);
+	}
+
+	.modal-content 
+	{
+	  background-color: var(--card-bg);
+	  color: var(--text);
+	  margin: 10% auto;
+	  padding: 2rem;
+	  border-radius: var(--radius);
+	  width: 90%;
+	  max-width: 600px;
+	  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+	  position: relative;
+	}
+
+	.close-button 
+	{
+	  color: var(--muted);
+	  position: absolute;
+	  top: 1rem;
+	  right: 1rem;
+	  font-size: 1.5rem;
+	  font-weight: bold;
+	  cursor: pointer;
+	}
+
+	.close-button:hover 
+	{
+	  color: var(--primary);
+	}
+/* INFO BUTTON POP UP  */
+
+/* chatbot button on top right  */
+.chatbot-toggle 
+{
+  background-color: #60a5fa; 
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  font-size: 18px;
+  line-height: 1;
+  border: none;
+  cursor: pointer;
+}
+.chatbot-toggle:hover 
+{
+	transform: scale(1.05);
+	box-shadow: 0 0 10px rgba(52, 152, 219, 0.6); 
+}
+.header-actions 
+{
+  display: flex;
+  align-items: center;
+  gap: 6px; /* control spacing between top right buttons */
 }
 
-.favorites-launch:hover {
-  color: var(--primary);
+/* Darker header for Osint Assistant */
+body[data-theme="light"] #chatbot-panel > div:first-child 
+{
+  background-color: #1f2937; /* dark header */
+  color: #f9fafb; /* light text color */
+  border-bottom: 1px solid #9ca3af;
 }
 
+/* Chat bot mobile version size */
+@media (max-width: 768px) 
+{
+  #chatbot-panel 
+  {
+    width: 100vw !important;
+    height: 35vh !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    top: auto !important;
+    border-radius: 1rem 1rem 0 0 !important;
+  }
 
-  </style>
+  #chatbot-panel textarea,
+  #chatbot-panel button 
+  {
+    width: 90% !important;
+    margin: 0.5rem auto;
+    font-size: 1rem;
+  }
+
+  #chat-response 
+  {
+    max-height: 45vh !important;
+    overflow-y: auto;
+  }
+}
+/* Chat bot mobile version size */
+   
+   .category-content {
+	  display: none;
+	}
+	.section.open .category-content {
+	  display: block;
+	}
+	.category-header {
+	  cursor: pointer;
+	  user-select: none;
+	}
+
+
+  </style>  
 </head>
 
 <body data-theme="dark">
@@ -283,52 +556,74 @@
   ⚠️ <strong>Oops!</strong> Please enter a valid IP, URL, or hash.
 </div>
 
-<header>
-  
-<div class="dashboard-title-wrapper">
-  <h1 class="dashboard-title">OSINT Dashboard</h1>
-  <div class="dashboard-tooltip">
-    🔍 <strong>Step 1:</strong> Enter any IP address, domain, URL, or hash into the search bar.<br>
-    ➕ <strong>Step 2:</strong> Click the <code>ADD</code> button. This will:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;• Automatically append your input to each relevant OSINT tool’s URL.<br>
-&nbsp;&nbsp;&nbsp;&nbsp;• Update all tool cards with active links based on your query.<br>
-	⚡ <strong>Step 3:</strong> Now simply click any tool to open it in a new tab – each one is already preloaded with your search input!<br><br>
-	
-	 • <strong>Bonus:</strong> You can <u>reorder cards</u> by dragging and dropping them within or between categories.<br>
-     • Changes are saved automatically in your browser (locally).<br><br>
-	 • Use the Filter bar below to quickly narrow down tools by name or purpose (e.g., “threat”, “email”, “dns”).<br>
-     • Double-click the filter to reset it.<br>
-	 • Tools marked with 🔶 work standalone and do not reflect search queries from the dashboard.<br>
-	 •To reset the layout, open your browser console and run: 	 
-	 <pre><code>localStorage.removeItem("osintToolOrder");</code></pre>
-  </div>
-</div>
+<header>  
+	<div class="dashboard-title-wrapper">
+	  <h1 class="dashboard-title" id="dashboard-title">OSINT Navigator</h1>
+	</div>
 
-
-
-    <button class="toggle" id="theme-toggle" aria-label="Toggle dark mode">🌓</button>
-  </header>
+	<div class="header-actions">
+		<!-- 🤖 AI Button in top right -->
+		<button class="chatbot-toggle" onclick="toggleChatPanel()" title="Ask AI Assistant">🤖</button>
+		<button class="toggle" id="theme-toggle" aria-label="Toggle dark mode">🌓</button>
+		<button class="info-button" title="About This Dashboard">💡</button>
+	</div>
+</header>
 
   <form class="search-bar" onsubmit="updateLinks(event)">
+   
     <input id="search" placeholder="Enter IP, URL or hash..." required />
+	
     <button type="submit" title="Append your input to each tool's URL and update all links">ADD</button>
-
   </form>
 
   <div class="filter-bar">
     <input id="filter" placeholder="Filter tools..." />
   </div>
+  
+  <div 
+		id="tag-filter-bar" 
+		style="margin: 1rem 0; display: flex; flex-wrap: wrap; gap: 0.5rem;">
+  </div>
 
   <div id="content"></div>
 
   <script>
-    document.getElementById('theme-toggle').onclick = () => {
+  
+  const categoriesOrder = [
+	  "YOUR FAVORITES",
+	  "SEARCH TOOLS",
+	  "IP INFO",
+	  "THREAT INTELLIGENCE",
+	  "HASH LOOKUP",
+	  "EMAIL",
+	  "EMAIL HEADER ANALYSIS",
+	  "ATTACK SURFACE",
+	  "VULNERABILITY DATABASE",
+	  "OTHERS",
+	  "FILE & MALWARE ANALYSIS",
+	  "MALWARE FEEDS",
+	  "AI TOOLS",
+	  "SOCIAL MEDIA & PEOPLE",
+	  "WEBSITE OSINT TOOLS",
+	  "PRIVATE SEARCH ENGINES",
+	  "REAL TIME THREAT MAPS",
+	  "PHISHING ANALYSIS",
+	  "CODE SEARCH",
+      "NEWS",
+	  "PODCAST",
+	  "POSTERS",
+	  "USEFUL THINGS"
+	  // ...add every category key !
+	];
+		
+    document.getElementById('theme-toggle').onclick = () => 
+	{
       const body = document.body;
       body.dataset.theme = body.dataset.theme === 'light' ? 'dark' : 'light';
     };
 
 // ✅ Versioning control for localStorage layout, so change v3,v4,v5... each time when update github
-	const toolConfigVersion = "v2"; // Change this version string with each new update
+	const toolConfigVersion = "v3"; // Change this version string with each new update
 	const storedVersion = localStorage.getItem("toolConfigVersion");
 
 	if (storedVersion !== toolConfigVersion) {
@@ -341,656 +636,1791 @@
    {
 	"YOUR FAVORITES": 
 	[
-		{ name: 'Virus Total', url: 'https://www.virustotal.com/gui/search/', desc:'Analyse suspicious files, domains, IPs & URLs'},
-		
-		{ name: 'URL Scan', url:'https://urlscan.io/search/#', desc:'Search for domains, IPs, filenames, hashes, ASNs'},
-		
-		{ name:'Shodan', url:'https://www.shodan.io/search?query=', desc:'Search Engine for the Internet of Everything'},
-	   
-		{ name:'Scamalytics', url:'https://scamalytics.com/ip/', desc:'IP Address Fraud Check'}	
+		{ 
+			name: 'Virus Total', 
+			url: 'https://www.virustotal.com/gui/search/', 
+			desc:'Analyse suspicious files, domains, IPs & URLs',
+			tags: ["ip","url","upload files","hash","malware analysis"]
+		},		
+		{ 
+			name: 'URL Scan', 
+			url:'https://urlscan.io/search/#', 
+			desc:'Search for domains, IPs, filenames, hashes, ASNs',
+			tags: ["ip", "url", "file names", "hash", "ASNs", "search engines", "live"]
+		},		
+		{ 
+			name:'Shodan', 
+			url:'https://www.shodan.io/search?query=', 
+			desc:'Search Engine for the Internet of Everything',
+			tags: ["search engines","iot"]
+		},	   
+		{ 
+			name:'Scamalytics', 
+			url:'https://scamalytics.com/ip/', 
+			desc:'IP Address Fraud Check',
+			tags: ["ip"]
+		}	
 	],
-	"SEARCH TOOLS": [
-       
-    { name: 'Web Check', url:'https://web-check.xyz/check/', desc:'All-in-one OSINT website analyzer'},
+	"SEARCH TOOLS": 
+	[       
+    { 
+		name: 'Web Check', 
+		url:'https://web-check.xyz/check/', 
+		desc:'All-in-one OSINT website analyzer',
+		tags: ["url","ip"]
+	},
     
-	{ name: 'Tor Metrics', url:'https://metrics.torproject.org/rs.html#search/', desc:'Tor Metrics'},	
+	{ 
+		name: 'Tor Metrics', 
+		url:'https://metrics.torproject.org/rs.html#search/', 
+		desc:'Tor Metrics',
+		tags: ["dark web","relay search","tor"]		
+	},	
 	
-	{ name: 'IntelX', url:'https://intelx.io/?s=', desc:'Enter a domain, URL, Email, IP, CIDR, Bitcoin address, and more'},
+	{ 
+		name: 'IntelX', 
+		url:'https://intelx.io/?s=',
+		desc:'Enter a domain, URL, Email, IP, CIDR, Bitcoin address, and more',
+		tags: ["ip", "url", "email", "cidr", "bitcoin address"]
+	},		
     
-	{ name: 'Host IO', url:'https://host.io/', desc:'Host IO'},
-	
+	{ 
+		name: 'Host IO', 
+		url:'https://host.io/', 
+		desc:'Host IO',
+		tags: ["url"]
+	},
 		
-	{ name: 'Silent Push', url:'https://explore.silentpush.com/enrichment/domain/', desc:'Search for domains, IPs, AS Number'},
+	{ 
+		name: 'Silent Push', 
+		url:'https://explore.silentpush.com/enrichment/domain/',
+		desc:'Search for domains, IPs, AS Number',
+		tags: ["ip", "url", "phone","search engines"]
+	},
 	
-	{ name: 'Live Scan', url:'https://explore.silentpush.com/live-scan?url=', desc:'Silent Push Live Scan'},
+	{ 
+		name: 'Live Scan', 
+		url:'https://explore.silentpush.com/live-scan?url=',
+		desc:'Silent Push Live Scan',
+		tags: ["url","live scan"]
+    },
     
-	{ name: 'Google Safe Browsing', url:'https://transparencyreport.google.com/safe-browsing/search?url=', desc:'Identify dangerous sites, search for unsafe content'},
+	{ 
+		name: 'Google Safe Browsing',
+		url:'https://transparencyreport.google.com/safe-browsing/search?url=',
+		desc:'Identify dangerous sites, search for unsafe content',
+		tags: ["search engines", "url"]
+    },
+    { 
+		name: 'Is Legit Site', 
+		url: 'https://www.islegitsite.com/check/', 
+		desc: 'Check if a website is legit or a potential scam', 
+		tags: ["url"]
+	},
+	{ 
+		name: 'URL Haus',
+		url:'https://urlhaus.abuse.ch/browse.php?search=',
+		desc:'Malicious URL tracker',
+		tags: ["url","hash"]
+	},
     
-	{ name: 'URL Haus', url:'https://urlhaus.abuse.ch/browse.php?search=', desc:'Malicious URL tracker'},
-    
-	{ name: 'Hybrid Analysis', url:'https://www.hybrid-analysis.com/search?query=', desc:'Malware analysis & threat intel'},
+	{ 
+		name: 'Hybrid Analysis',
+		url:'https://www.hybrid-analysis.com/search?query=',
+		desc:'Malware analysis & threat intel',
+		tags: ["url","hash","ip","yara search","upload files","malware analysis"]
+	},
 	
-    { name: 'Soc Radar IOC', url:'https://socradar.io/labs/app/ioc-radar/', desc:'Advanced threat intelligence search engine for analyzing IOCs with real-time risk assessment'},
+    { 
+		name: 'Soc Radar IOC',
+		url:'https://socradar.io/labs/app/ioc-radar/',
+		desc:'Advanced threat intelligence search engine for analyzing IOCs with real-time risk assessment',
+	    tags: ["ip", "hash", "hostname"]
+	},
 	
-    { name: 'Pulsedive', url:'https://pulsedive.com/ioc/', desc:'Search any domain, IP, or URL and enrich on-demand with passive and active scans to inform your investigation.'},
+    { 
+		name: 'Pulsedive',
+		url:'https://pulsedive.com/ioc/',
+		desc:'Search any domain, IP, or URL and enrich on-demand with passive and active scans to inform your investigation. Explore query language.',
+		tags: ["url","ip", "ioc","upload files","malware analysis"]
+	},
 	
-    { name: 'Abuse IP DB', url:'https://www.abuseipdb.com/check/', desc:'Check the report history of any IP address to see if anyone else has reported malicious activities.'},
+    { 
+		name: 'Abuse IP DB', 
+		url:'https://www.abuseipdb.com/check/',
+		desc:'Check the report history of any IP address to see if anyone else has reported malicious activities.',
+		tags: ["url","ip","subnet"]
+	},
 	
-    { name:'WhoisXML', url:'https://whois.whoisxmlapi.com/lookup?q=', desc:'Gather all the registration information from a domain’s or an IP address’s corresponding WHOIS records.'},
+    { 
+		name:'WhoisXML', 
+		url:'https://whois.whoisxmlapi.com/lookup?q=',
+		desc:'Gather all the registration information from a domain’s or an IP address’s corresponding WHOIS records.',
+		tags: ["url", "ip", "whois", "email"]
+	},
 	
-    { name:'URL Void', url:'https://www.urlvoid.com/scan/', desc:'Check the online reputation/safety of a website. #Domain'},
+    { 
+		name:'URL Void',
+		url:'https://www.urlvoid.com/scan/',
+		desc:'Check the online reputation/safety of a website.',
+		tags: ["url"]
+	},
     
 	{
 	  name: 'CentralOps',
 	  template: 'https://centralops.net/co/DomainDossier.aspx?addr={{query}}&_body=DomainDossier.aspx&dom_dns=true&dom_whois=true&net_whois=true',
-	  desc: 'DNS/WHOIS for domains and IPs'
+	  desc: 'DNS/WHOIS for domains and IPs',
+	  tags: ["url","ip","whois"]	  
 	},
 	
 	{
 	  name: 'Fortiguard',
 	  template: 'https://www.fortiguard.com/search?q={{query}}&engine=7',
-	  desc: 'Submit a Domain to search'
+	  desc: 'Submit a Domain to search',
+	  tags: ["url","ip"]
 	},
 
 	{
 	  name: 'Meta',
 	  template: 'https://metadefender.opswat.com/results/domain/{{query}}/overview',
-	  desc: 'Analyze a File, URL, IP, Hash or CVE'
+	  desc: 'Analyze a File, URL, IP, Hash or CVE',
+	  tags: ["upload files","url","ip","hash","cve","malware analysis"]
 	},
-
-    { name:'Sucuri', url:'https://sitecheck.sucuri.net/results/', desc:'Enter a URL and the Sucuri will check the website for known malware, viruses, blacklisting status, website errors, out-of-date software, and malicious code.'},
-    
-	{ name:'Threat Yeti', url:'https://threatyeti.com/search?q=', desc:'Check a link-domain for malware or phishing and get a full security analysis.'},
+	{
+	  name: 'FOFA',
+	  url: 'https://en.fofa.info/',
+	  desc: 'Cybersecurity search engine for discovering internet-connected devices, domains, IPs, and services using fingerprinting and base64 queries.',
+	  tags: ["url", "ip","threat intel"]
+	},
+    { 
+		name:'Sucuri',
+		url:'https://sitecheck.sucuri.net/results/',
+		desc:'Enter a URL and the Sucuri will check the website for known malware, viruses, blacklisting status, website errors, out-of-date software, and malicious code.',
+		tags: ["url"]
+	},
+    { 
+		name: 'Rapid DNS', 
+		url: 'https://rapiddns.io/s/', 
+		desc: 'Discover subdomains for a target domain using RapidDNS by Rapid7', 
+		tags: ["subdomain", "dns", "url", "ip", "keyword"]
+	},
+	{ 
+		name: 'Threat Intel', 
+		url: 'https://threatintelligenceplatform.com/report/', 
+		desc: 'Generate detailed threat intelligence reports for domains, iips', 
+		tags: ["threat intel","url","ip"]
+	},		
+	{ 
+		name:'Threat Yeti',
+		url:'https://threatyeti.com/search?q=',
+		desc:'Check a link-domain for malware or phishing and get a full security analysis.',
+		tags: ["url","ip","threat intel"]
+	},
 	
-    { name:'MyWOT', url:'https://www.mywot.com/scorecard/', desc:'Using a combination of machine learning algorithms and daily updated blacklists'},
-	
-    { name:'crt.sh', url:'https://crt.sh/?q=', desc:'Certificate transparency records, Enter an Domain Name - Organization Name - a Certificate Fingerprint SHA or a crt.sh ID'},
-
-    { name:'Security Trails', url:'https://securitytrails.com/domain/', desc:'Domain & DNS data'},
-   
-    { name:'Whoxy', url:'https://www.whoxy.com/', desc:'Domain Search Engine'},
-
-    { name:'Built With', url:'https://builtwith.com/', desc:'Find out what websites are Built With'},
-	
-	{ name:'DNS Propagation', url:'https://dnschecker.org/#A/', desc:'Check DNS Propagation'},
-    
+    { 
+		name:'MyWOT',
+		url:'https://www.mywot.com/scorecard/',
+		desc:'Using a combination of machine learning algorithms and daily updated blacklists',
+		tags: ["url","ip"]
+	},	
+    { 
+		name:'crt.sh',
+		url:'https://crt.sh/?q=',
+		desc:'Certificate transparency records, Enter an Domain Name - Organization Name - a Certificate Fingerprint SHA or a crt.sh ID',
+		tags: ["Certificate Search", "url", "hash", "crt.sh"]
+	},
+    {
+		name:'Security Trails',
+		url:'https://securitytrails.com/domain/',
+		desc:'Domain & DNS data',
+		tags: ["url","keyword","hostname"]
+	},   
+    { 
+		name:'Whoxy', 
+		url:'https://www.whoxy.com/', 
+		desc:'Domain Search Engine',
+		tags: ["url","domain search engines"]
+	},	
+    { 
+		name:'Built With',
+		url:'https://builtwith.com/',
+		desc:'Find out what websites are Built With',
+		tags: ["website","tech","keyword","url"]
+	},	
+	{ 
+		name:'DNS Propagation',
+		url:'https://dnschecker.org/#A/',
+		desc:'Checking whether the DNS records are propagated globally',
+		tags: ["dns","url","lookup"]
+	},    
 	{
 	  name: 'DNS Dumpster',
-	  template: 'https://dnsdumpster.com/?target={{query}}&user=free',
-	  desc: 'Passive DNS and domain mapping tool'
-	},
-	
+	  template: 'https://dnsdumpster.com/',
+	  desc: 'Dns recon & research, find & lookup dns records',
+	  tags: ["dns","url","lookup"]
+	},	
 	{
 	  name: 'Similar Web',
 	  template: 'https://www.similarweb.com/website/{{query}}/#overview',
-	  desc: 'Website traffic and ranking data'
-	}
-
-  ],
-  "IP INFO": [
-    { name:'Criminal IP', url:'https://www.criminalip.io/en/asset/search?query=', desc:'Criminal IP is an OSINT search engine specialized in attack surface assessment and threat hunting.'},
-	
-	{ name:'Spur', url:'https://spur.us/context/', desc:'Detect VPNs, Residential proxies, and Bots'},    
-	
-    { name:'IP Void', url:'https://www.ipvoid.com/scan/', desc:'IP Address Information'},
-    { name:'IP to Hostname', url:'https://dnschecker.org/ip-to-hostname.php?query=', desc:'IP to Hostname Lookup'},
-    { name:'ARIN', url:'https://search.arin.net/rdap/?query=', desc:'Search sites or Whois'},
-    { name:'DomainTools', url:'https://whois.domaintools.com/', desc:'Whois Lookup'},
-    { name:'IPinfo', url:'https://ipinfo.io/', desc:'IP info'},
-    { name:'GeoIP (HackerTarget)', url:'https://api.hackertarget.com/geoip/?q=', desc:'Geo IP'},
-	
-    { name:'DNSLookup HT', url:'https://api.hackertarget.com/dnslookup/?q=', desc:'DNS lookup'},
-	
-    { name:'IP Quality Score', url:'https://www.ipqualityscore.com/free-ip-lookup-proxy-vpn-test/lookup/', desc:'IP lookup and Proxy Detection'},
-	
-    { name:'MaxMind GeoIP2', url:'https://www.maxmind.com/en/geoip2-precision-demo?ip_address=', desc:'IP geolocation and proxy detection'},
-	    
+	  desc: 'Website traffic and ranking data',
+	  tags: ["url","website"]
+	},
+	{ 
+		name: 'IP History', 
+		url: 'https://viewdns.info/iphistory/?domain=', 
+		desc: 'View historical IP address records associated with a domain', 
+		tags: ["url", "IP history"],
+	},
+	{ 
+		name: 'Website Informer', 
+		url: 'https://website.informer.com/', 
+		desc: 'Get detailed insights on domains including owner, traffic, and technology stack', 
+		tags: ["url","whois"]
+	},
+	{ 
+		name: 'whoisology', 
+		url: 'https://whoisology.com/', 
+		desc: 'Deep Connections Between Domain Names & Their Owners', 
+		tags: ["url","whois","email","keyword"]
+	},
+	{ 
+		name: 'hunter.how', 
+		url: 'https://hunter.how/list?searchValue=', 
+		desc: 'Free Internet search engine for Internet researchers', 
+		tags: ["url","ip","location","http header"]
+	},
 	{
-	  name: 'MX DNS lookup',
-	  template: 'https://mxtoolbox.com/SuperTool.aspx?action=a%3a{{query}}&run=toolpage',
-	  desc: 'DNS A record lookup'
+	  name: 'Have I Been Squatted',
+	  url: 'https://haveibeensquatted.com/',
+	  desc: 'check if a domain has been typosquatted',
+	  tags: ["url", "domain", "brand protection"]
+	}
+	
+  ],
+  "IP INFO": 
+  [
+    {
+		name:'Criminal IP',
+		url:'https://www.criminalip.io/asset/report/',
+		desc:'Criminal IP is an OSINT search engine specialized in attack surface assessment and threat hunting.',
+		tags: ["ip", "asset"]
+	},
+	
+	{ 
+		name:'Spur',
+		url:'https://spur.us/context/',
+		desc:'Detect VPNs, Residential proxies, and Bots',
+		tags: ["proxy","vpn","bots"]
+	},    
+	
+    { 
+		name:'IP Void',
+		url:'https://www.ipvoid.com/scan/',
+		desc:'IP Address Information',
+		tags: ["ip"]
+	},
+    { 
+		name:'IP to Hostname',
+		url:'https://dnschecker.org/ip-to-hostname.php?query=',
+		desc:'IP to Hostname Lookup',
+		tags: ["ip", "hostname lookup"]
+	},
+    { 
+		name:'ARIN',
+		url:'https://search.arin.net/rdap/?query=',
+		desc:'Search sites or Whois',
+		tags: ["ip","whois"]
+	},
+    { 
+		name:'DomainTools',
+		url:'https://whois.domaintools.com/',
+		desc:'Whois Lookup',
+		tags: ["url","ip","whois"]
+	},
+    { 
+		name:'IPinfo',
+		url:'https://ipinfo.io/',
+		desc:'IP info',
+		tags: ["ip","AS number"]
+	},
+    { 
+		name:'GeoIP (HackerTarget)',
+		url:'https://api.hackertarget.com/geoip/?q=',
+		desc:'Geo IP',
+		tags: ["ip"]
+	},
+	
+	 { 
+		name:'Nmap Scanner',
+		url:'https://hackertarget.com/nmap-online-port-scanner/',
+		desc:'Nmap online port scanner',
+		tags: ["ip"],
+		skipSearch: true
+	},
+	
+    { 
+		name:'DNSLookup HT',
+		url:'https://api.hackertarget.com/dnslookup/?q=',
+		desc:'DNS lookup',
+		tags: ["url","dnslookup"]
 	},
 	
     {
+		name:'Proxy Lookup',
+		url:'https://www.ipqualityscore.com/free-ip-lookup-proxy-vpn-test/lookup/',
+		desc:'IP lookup and Proxy Detection',
+		tags: ["proxy","vpn","ip","tor"]
+	},
+	
+	 {
+		name:'IP Reputation Check',
+		url:'https://www.ipqualityscore.com/ip-reputation-check/lookup/',
+		desc:'check IP Reputation',
+		tags: ["ip"]
+	},	
+    {
+		name:'MaxMind GeoIP2',
+		url:'https://www.maxmind.com/en/geoip2-precision-demo?ip_address=',
+		desc:'IP geolocation and proxy detection',
+	    tags: ["ip","proxy"]
+	},
+	{
+	  name: 'MX DNS lookup',
+	  template: 'https://mxtoolbox.com/SuperTool.aspx?action=a%3a{{query}}&run=toolpage',
+	  desc: 'DNS A record lookup',
+	  tags: ["url","dns"]
+	},	
+    {
 	  name: 'MXToolbox',
 	  template: 'https://mxtoolbox.com/SuperTool.aspx?action=mx%3a{{query}}&run=toolpage',
-	  desc: 'MX Toolbox'
+	  desc: 'MX Toolbox',
+	  tags: ["mx lookup","dns"]
+	},   
+    { 
+		name:'Whois',
+		url:'https://www.whois.com/whois/',
+		desc:'whois',
+		tags: ["url","ip"]
+	},	
+	{ 
+		name:'My IP',
+		url:'https://whatismyipaddress.com/',
+		desc:'What is my ipaddress',
+		tags: ["ip"],	
+		skipSearch: true
+	},	
+    { 
+		name:'IP Details',
+		url:'https://whatismyipaddress.com/ip/',
+		desc:'IP Details',
+		tags: ["ip"],	
+	},	
+	{ 
+		name:'icanhazip',
+		url:'https://ipv4.icanhazip.com',
+		desc:'what is my ipaddress',
+		tags: ["ip"],	
+		skipSearch: true
+	},		
+    {
+		name:'FEDO Tracker',
+		url:'https://feodotracker.abuse.ch/browse.php?search=',
+		desc:'botnet,C2 tracked by Feodo Tracker, associated with Dridex, TrickBot, QakBot, BazarLoader and Emotet',
+		tags: ["ip","c2","botnet","as number","as name"]
+	},	
+    { 
+		name:'Sans ISC',
+		url:'https://isc.sans.edu/ipinfo.html?ip=',
+		desc:'Sans IP Lookup',
+		tags: ["ip","port"]
 	},
-   
-    { name:'Whois', url:'https://www.whois.com/whois/', desc:'whois'},
-	
-    { name:'WhatIsMyIP', url:'https://whatismyipaddress.com/ip/', desc:'what is my ipaddress'},
-	
-	{ name:'icanhazip', url:'https://ipv4.icanhazip.com', desc:'what is my ipaddress', skipSearch: true},
-		
-    { name:'FeodoTracker', url:'https://feodotracker.abuse.ch/browse.php?search=', desc:'botnet,C2 tracked by Feodo Tracker, associated with Dridex, TrickBot, QakBot, BazarLoader and Emotet'},
-	
-    { name:'Sans ISC', url:'https://isc.sans.edu/ipinfo.html?ip=', desc:'Sans IP Lookup'},
     
 	{
 	  name: 'BotScout',
 	  template: 'https://botscout.com/search.htm?sterm={{query}}&stype=q',
-	  desc: 'Bot Scout lookup'
+	  desc: 'Bot Scout lookup',
+	  tags: ["bot","email","ip"]
+	},
+    { 
+		name:'IP Hub',
+		url:'https://iphub.info/?ip=',
+		desc:'IPHub is an IP lookup website featuring Proxy/VPN detection.',
+		tags: ["ip","proxy","vpn"]
+	},
+    {
+	  name: 'IP-API',
+	  url: 'https://ip-api.com/#',
+	  desc: 'An IP geolocation service that provides detailed information about IP addresses such as city, country, and ISP.',
+	  tags: ["ip", "geolocation", "API", "network", "lookup"]
 	},
 
-    { name:'IPHub', url:'https://iphub.info/?ip=', desc:'IPHub is an IP lookup website featuring Proxy/VPN detection.'},
-    
-    { name:'Sicehice', url:'https://sicehice.com/search/', desc:'Bulk IP Searching | Threat Data Aggregation'},
-    { name:'Ping IPv4', url:'https://dnschecker.org/ping-ipv4.php?address=', desc:'Ping ipv4'}
+    { 
+		name:'Sicehice',
+		url:'https://sicehice.com/search/',
+		desc:'Bulk IP Searching | Threat Data Aggregation',
+		tags: ["ip"]
+	},
+    { 
+		name:'Ping IPv4',
+		url:'https://dnschecker.org/ping-ipv4.php?address=',
+		desc:'Ping ipv4',
+		tags: ["ip"]
+	}
   ],
-  "THREAT INTELLIGENCE": [
-    { name:'IBM X-Force', url:'https://exchange.xforce.ibmcloud.com/search/', desc:'Search by application name, IP address, URL, Vulnerability, Hash, Domain'},
+  "THREAT INTELLIGENCE": 
+  [
+    { 
+		name:'IBM X-Force',
+		url:'https://exchange.xforce.ibmcloud.com/search/',
+		desc:'Search by application name, IP address, URL, Vulnerability, Hash, Domain',
+		tags: ["url","vulnerability", "cve", "hash", "ip","threat intel"]
+	},
     
-	{ name:'Threat Miner', url:'https://www.threatminer.org/host.php?q=', desc:'Search for domains, IPs, Hash, email address or APTnotes, ssl, user-agent, AV family, filename, URI, registry, mutex '},
+	{ 
+		name:'Threat Miner',
+		url:'https://www.threatminer.org/host.php?q=',
+		desc:'Search for domains, IPs, Hash, email address or APTnotes, ssl, user-agent, AV family, filename, URI, registry, mutex ',
+		tags: ["url","filename", "ip", "hash", "email","threat intel"]
+	},
     
-	{ name:'Grey Noise', url:'https://viz.greynoise.io/query/', desc:'GreyNoise tags are a signature-based detection method used to identify actors, tools, and CVEs in our data.'},
-    
-	{ name:'AlienVault OTX', url:'https://otx.alienvault.com/indicator/domain/', desc:'Open Threat Intelligence Community'},
-    
-	{ name:'Onyphe', url:'https://www.onyphe.io/search?q=category:datascan+', desc:'Data Scan'},
-	
-    { name:'SocRadar TH', url:'https://platform.socradar.com/app/threat-hunting?q=', desc:'Soc Radar'},
-	
-    { name:'Talos Intelligence', url:'https://talosintelligence.com/reputation_center/lookup?search=', desc:'Cisco Talos Intelligence'},
-    
-	{ name:'CrowdSec Intel', url:'https://app.crowdsec.net/cti/', desc:'Explore the CrowdSec Threat Intelligence, and get a full report of IPs.'},
-	
+	{ 
+		name:'Grey Noise',
+		url:'https://viz.greynoise.io/query/',
+		desc:'GreyNoise tags are a signature-based detection method used to identify actors, tools, and CVEs in our data.',
+		tags: ["url","filename", "ip", "hash", "email","threat intel"]
+	},    
+	{ 
+		name:'AlienVault OTX',
+		url:'https://otx.alienvault.com/indicator/domain/',
+		desc:'Open Threat Intelligence Community',
+		tags: ["url","threat intel"]
+	},    
+	{ 
+		name:'Onyphe',
+		url:'https://www.onyphe.io/search?q=category:datascan+',
+		desc:'Data Scan',
+		tags: ["url","ip","threat intel"]		
+	},	
+    { 
+		name:'SocRadar TH',
+		url:'https://platform.socradar.com/app/threat-hunting?q=',
+		desc:'Soc Radar',
+		tags: ["url","ip","threat intel"]
+	},	
+    { 
+		name:'Talos Intelligence',
+		url:'https://talosintelligence.com/reputation_center/lookup?search=',
+		desc:'Cisco Talos Intelligence',
+		tags: ["url","ip","email","hash","threat intel"]
+	},    
+	{ 
+		name:'CrowdSec Intel',
+		url:'https://app.crowdsec.net/cti/',
+		desc:'Explore the CrowdSec Threat Intelligence, and get a full report of IPs.',
+		tags: ["ip","threat intel"]
+	},	
     {
 	  name: 'Maltiverse',
 	  template: 'https://maltiverse.com/search;query={{query}};page=1;sort=creation_time_desc',
-	  desc: 'Maltiverse threat intelligence search'
+	  desc: 'Maltiverse threat intelligence search',
+	  tags: ["url","ip","threat intel"]
 	},
-
-    { name:'LeakIX', url:'https://leakix.net/search?scope=leak&q=', desc:'Try * or port:3306 or protocol:mysql or asn:16509 or ip:"13.0.0.0/8"?'}
+    { 
+		name:'LeakIX',
+		url:'https://leakix.net/search?scope=leak&q=',
+		desc:'Try * or port:3306 or protocol:mysql or asn:16509 or ip:"13.0.0.0/8"?',
+		tags: ["url","ip","port","threat intel"]
+	},
+	{ 
+		name:'ThreatView',
+		url:'https://threatview.io/',
+		desc:'Actionable cyber threat intelligence feeds',
+		tags: ["threat intel","c2","blocklist","hash","bitcoin"],		
+		skipSearch: true
+	}
   ],
   
-  "HASH LOOKUP": [
-    { name:'Valhalla', url:'https://valhalla.nextron-systems.com/info/search?keyword=', desc:'Currently serving X amount YARA rules and X Sigma rules #Hash'},
-	
-    { name:'VirusTotal (Hash)', url:'https://www.virustotal.com/gui/search/', desc:'#Hash'},
-	
-	{ name:'Malshare', url:'https://malshare.com/sample.php?action=detail&hash=', desc:'Recently added Samples Hash'},
-	
-	{ name:'Alienvault', url:'https://otx.alienvault.com/indicator/file/', desc:'Hash'},
-		
-	{ name:'Jotti', url:'https://virusscan.jotti.org/en-US/search/hash/', desc:'#Hash'}
+  "HASH LOOKUP": 
+  [
+    { 
+		name:'Valhalla',
+		url:'https://valhalla.nextron-systems.com/info/search?keyword=',
+		desc:'Currently serving X amount YARA rules and X Sigma rules #Hash',
+		tags: ["hash"]
+	},	
+    { 
+		name:'VT Hash', 
+		url:'https://www.virustotal.com/gui/search/', 
+		desc:'VirusTotal Hash',
+		tags: ["hash"]
+	},	
+	{ 
+		name:'Malshare',
+		url:'https://malshare.com/sample.php?action=detail&hash=',
+		desc:'Recently added Samples Hash',
+		tags: ["hash"]
+	},	
+	{ 
+		name:'Alienvault',
+		url:'https://otx.alienvault.com/indicator/file/',
+		desc:'Hash lookup',
+		tags: ["hash"]
+	},		
+	{ 
+		name:'Jotti',
+		url:'https://virusscan.jotti.org/en-US/search/hash/',
+		desc:'Hash lookup',
+		tags: ["hash"]
+	}
   ],
-  "EMAIL": [
-    { name:'Email Hunter', url:'https://hunter.io/search/', desc:'Email Hunter'},
+  "EMAIL": 
+  [
+    { 
+		name:'Email Hunter',
+		url:'https://hunter.io/search/',
+		desc:'Email Hunter',
+		tags: ["email"]
+	},	
+    { 
+		name:'Email Finder',
+		url:'https://hunter.io/find/',
+		desc:'Email Finder',
+		tags: ["email"],
+		skipSearch: true
+	},
 	
-    { name:'Email Finder', url:'https://hunter.io/find/', desc:'Email Finder', skipSearch: true },
-	
-    { name:'EmailRep', url:'https://emailrep.io/', desc:'Email Reputation', skipSearch: true },
-	
-    { name:'Email Headers', url:'https://exchangedefender.com/docs/analyzing-smtp-mail-headers', desc:'Analyzing SMTP Mail Headers', skipSearch: true},
-	
+    { 
+		name:'EmailRep', 
+		url:'https://emailrep.io/',
+		desc:'Email Reputation',
+		tags: ["email"],
+		skipSearch: true 
+	},	
+    { 
+		name:'Email Headers',
+		url:'https://exchangedefender.com/docs/analyzing-smtp-mail-headers',
+		desc:'Analyzing SMTP Mail Headers',
+		tags: ["email"],
+		skipSearch: true
+	},	
     {
 	  name: 'Epieos',
 	  template: 'https://epieos.com/?q={{query}}&t=email', 
-	  desc: 'Email lookup via Epieos'
+	  desc: 'Email lookup via Epieos',
+	  tags: ["email"]
+	},
+    { 
+		name:'HaveIBeenPwned',
+		url:'https://haveibeenpwned.com/',
+		desc:'Check if your email address is in a data breach',
+		tags: ["email"],
+		skipSearch: true
+	},	
+    {
+		name:'Voilanorbert',
+		url:'https://www.voilanorbert.com/',
+		desc:'Can find anyone s email address',
+		tags: ["email"],
+		skipSearch: true
+	},	
+    { 
+		name:'Email Checker',
+		url:'https://email-checker.net/',
+		desc:'A simple tool to check whether an email address exists.',
+		tags: ["email"],
+		skipSearch: true
+	},	
+	{
+	  name: 'Email Finder',
+	  url: 'https://www.experte.com/email-finder',
+	  desc: 'Email Finder',
+	  tags: ["email","find email"],
+	  skipSearch: true
+	},
+	{
+	  name: 'Skymem',
+	  url: 'https://www.skymem.info/',
+	  desc: 'Find email addresses of companies and people',
+	  tags: ["email","find email"],
+	  skipSearch: true
+	},
+	{
+	  name: 'Validate Email',
+	  url: 'https://validateemailaddress.org/',
+	  desc: 'Validate email addresses',
+	  tags: ["email"],
+	  skipSearch: true
 	},
 
-    { name:'HaveIBeenPwned', url:'https://haveibeenpwned.com/', desc:'Check if your email address is in a data breach', skipSearch: true},
-	
-    { name:'Voilanorbert', url:'https://www.voilanorbert.com/', desc:'can find anyone s email address', skipSearch: true},
-	
-    { name:'Email Checker', url:'https://email-checker.net/', desc:'A simple tool to check whether an email address exists.', skipSearch: true},
-	
-	{ name:'Breach Directory', url:'https://breachdirectory.org/', desc:'Check if your email or username was compromised', skipSearch: true},
+
+	{ 
+		name:'Breach Directory',
+		url:'https://breachdirectory.org/',
+		desc:'Check if your email or username was compromised',
+		tags: ["email","data breach"],
+		skipSearch: true
+	},	
+	{
+	  name: 'LeakCheck',
+	  url: 'https://leakcheck.io/',
+	  desc: 'Service for checking leaked credentials, personal information, and more.',
+	  tags: ["data breach", "email", "phone"],
+	  skipSearch: true
+	},
+	{
+	  name: 'Zuckered',
+	  url: 'https://haveibeenzuckered.com/',
+	  desc: 'Tool for checking if your Facebook data has been leaked online.',
+	  tags: ["facebook", "data breach"],
+	  skipSearch: true
+	},
+	{
+	  name: 'ProxyNova',
+	  url: 'https://www.proxynova.com/tools/comb/',
+	  desc: 'Tool for searching compromised combos and leaked information.',
+	  tags: ["data breach"],
+	  skipSearch: true
+	},
+	{
+	  name: 'Breach VIP',
+	  url: 'https://breach.vip/',
+	  desc: 'Free database search engine for checking if your personal information has been compromised in data breaches.',
+	  tags: ["data breach"],
+	  skipSearch: true
+	},
+	{
+	  name: 'Alerts Bar',
+	  url: 'https://www.alerts.bar/',
+	  desc: 'compromised credentials and data breaches, with integrations for Slack, Telegram, and SIEM systems.',
+	  tags: ["data breach"],
+	  skipSearch: true
+	},
+
 	
 	{
 	  name: "MXToolbox Blacklist",
 	  template: "https://mxtoolbox.com/SuperTool.aspx?action=blacklist%3a{{query}}&run=toolpage",
-	  desc: "Check if a domain is blacklisted via MXToolbox"
-	}
-
-	
+	  desc: "Check if a domain is blacklisted via MXToolbox",
+	  tags: ["email"]
+	}	
   ],
   
-  "EMAIL HEADER ANALYSIS": [
+  "EMAIL HEADER ANALYSIS": 
+  [
 	  {
 		name: "RFC822 Parser",
 		url: "https://www.whatismyip.com/email-header-analyzer/",
 		desc: "Email Header Analyzer and RFC822 parser", 
+		tags: ["email header analyzer"],
 		skipSearch: true
 	  },
 	  {
 		name: "Mailheader",
 		url: "https://mailheader.org/",
 		desc: "Online email header parser and spam analysis", 
+		tags: ["email header analyzer"],
 		skipSearch: true
 	  },
 	  {
 		name: "Message header (Google)",
 		url: "https://toolbox.googleapps.com/apps/messageheader/",
 		desc: "Google Message Header Analyzer", 
+		tags: ["email header analyzer"],
 		skipSearch: true
 	  },
 	  {
 		name: "Azure Header Analyzer",
 		url: "https://mha.azurewebsites.net/",
 		desc: "Microsoft email message header analyzer", 
+		tags: ["email header analyzer"],
 		skipSearch: true
 	  },
 	  {
 		name: "Glock Apps",
 		url: "https://glockapps.com/domain-checker/?domain=",
-		desc: "Check If Your Domain Is Protected"
+		desc: "Check If Your Domain Is Protected",
+		tags: ["url","dmarc","spf"]
 	  }
 	],	
 	
-  "ATTACK SURFACE": [
-	  { name:'FullHunt', url:'https://fullhunt.io/', desc:'Expose your attack surface', skipSearch: true},
-	
-	  { name:'Soc Radar', url:'https://socradar.io/labs/external-attack-surface/', desc:'External Attack Surface', skipSearch: true},
-		
-	  { name:'Netlas', url:'https://app.netlas.io/', desc:'Discover, scan and monitor any online assets', skipSearch: true},
-		
-	  { name: 'Censys', url:'https://search.censys.io/search?resource=hosts&sort=RELEVANCE&per_page=25&virtual_hosts=EXCLUDE&q=', desc:'Search an IP address, name, protocol or field: value'},
+  "ATTACK SURFACE": 
+  [
+	  { 
+		name:'FullHunt',
+		url:'https://fullhunt.io/',
+		desc:'Expose your attack surface',
+		tags: ["url","ip","attck srfc"],
+		skipSearch: true
+	  },	
+	  { 
+		name:'Soc Radar',
+		url:'https://socradar.io/labs/external-attack-surface/',
+		desc:'External Attack Surface',
+		tags: ["url","email","attck srfc"],
+		skipSearch: true
+	  },		
+	  { 
+		name:'Netlas',
+		url:'https://app.netlas.io/',
+		desc:'Discover, scan and monitor any online assets',
+		tags: ["url","ip","attck srfc"],
+		skipSearch: true
+	  },
+	  { 
+		name: 'driftnet', 
+		url: 'https://driftnet.io/search/summary?t=search-term%3A%3Ahas+prefix%3A', 
+		desc: 'Deep Connections Between Domain Names & Their Owners', 
+		tags: ["url","ip","cidr","host"]
+	  },
+	  { 
+		name: 'Censys',
+		url:'https://search.censys.io/search?resource=hosts&sort=RELEVANCE&per_page=25&virtual_hosts=EXCLUDE&q=',
+		desc:'Search an IP address, name, protocol or field: value',
+		tags: ["url","ip","attck srfc"]
+	  },
 		
 	  {
 		name: "ZoomEye",
 		url: "https://www.zoomeye.ai/",
 		desc: "Cyberspace search engine for discovering assets and vulnerabilities",
+		tags: ["url","ip","attck srfc"],
 		skipSearch: true
 	  },
-	  { name:'Netcraft', url:'https://searchdns.netcraft.com/?restriction=site+contains&host=', desc:'Domain tech info'},
+	  { 
+		name:'Netcraft',
+		url:'https://searchdns.netcraft.com/?restriction=site+contains&host=',
+		desc:'Domain tech info',
+		tags: ["url","attck srfc"]
+	  },
 	  {
 		name: "WhatCMS",
-		url: "https://whatcms.org/",
+		url: "https://whatcms.org/?s=",
 		desc: "Identify the CMS a website is using",
-		skipSearch: true
-	  },
-	  {
-		name: "Greenbone",
-		url: "https://www.greenbone.net/en/greenbone-free/",
-		desc: "Open-source vulnerability scanning and management platform",
-		skipSearch: true
-	  },
-	  {
-		name: "Nuclei",
-		url: "https://github.com/projectdiscovery/nuclei",
-		desc: "Fast and customizable vulnerability scanner based on templates",
-		skipSearch: true
+		tags: ["url","ip","attck srfc"]
 	  }	
   ],
   
-  "VULNERABILITY DATABASE": [
-	  { name:'Vulners', url:'https://vulners.com/', desc:'Searching through 3M+ vulnerabilities and exploits', skipSearch: true},
-	  { name:'ExploitDB', url:'https://www.exploit-db.com/', desc:'Exploit Database', skipSearch: true},
+  "VULNERABILITY DATABASE": 
+  [
+	  { 
+		name:'Vulners',
+		url:'https://vulners.com/',
+		desc:'Searching through 3M+ vulnerabilities and exploits',
+		tags: ["vulnerabilites","exploits","cve"],
+		skipSearch: true
+	  },
+	  { 
+		name:'ExploitDB',
+		url:'https://www.exploit-db.com/',
+		desc:'Exploit Database',
+		tags: ["exploits"],
+		skipSearch: true
+	  },
 	  {
 		name: "AttackerKB",
 		url: "https://attackerkb.com/activity-feed",
 		desc: "Vulnerability insights with attacker focus from Rapid7",
+		tags: ["vulnerabilites","exploits","cve"],
 		skipSearch: true
 	  },
 	  {
 		name: "CISA KEV Catalog",
 		url: "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
 		desc: "CISA's catalog of actively exploited vulnerabilities",
+		tags: ["vulnerabilites","cve","exploits"],
 		skipSearch: true
 	  },
 	  {
 		name: "NVD (NIST)",
 		url: "https://nvd.nist.gov/",
 		desc: "National Vulnerability Database by NIST",
+		tags: ["vulnerabilites","cve","exploits"],
 		skipSearch: true
 	  },
 	  {
 		name: "Feedly CVE",
 		url: "https://feedly.com/cve",
 		desc: "Track and follow CVE disclosures via Feedly",
+		tags: ["cve"],
 		skipSearch: true
 	  },
 	  {
 		name: "CVE.org",
 		url: "https://www.cve.org/",
 		desc: "Official CVE database and identifiers by MITRE",
+		tags: ["cve"],
 		skipSearch: true
 	  },
 	  {
 		name: "SOCRadar",
 		url: "https://socradar.io/labs/app/cve-radar",
 		desc: "Interactive visual radar for trending vulnerabilities",
+		tags: ["cve"],
 		skipSearch: true
 	  },
 	  {
 		name: "CVEMon",
 		url: "https://cvemon.intruder.io/",
 		desc: "Live CVE monitoring tool by Intruder",
+		tags: ["vulnerabilites","cve","exploits"],
 		skipSearch: true
 	  },
 	  {
 		name: "VulnCheck XDB",
 		url: "https://vulncheck.com/xdb",
 		desc: "Exploit intelligence and enrichment for vulnerabilities",
+		tags: ["cve"],
 		skipSearch: true
 	  },
 	  {
 		name: "CVEShield",
 		url: "https://www.cveshield.com/",
 		desc: "See if your software stack is affected by specific CVEs",
+		tags: ["cve"],
 		skipSearch: true
 	  },
 	  {
 		name: "CVE Sky (GreyNoise)",
 		url: "https://cvesky.labs.greynoise.io/",
 		desc: "GreyNoise perspective on CVE exploitation and noise vs signal",
+		tags: ["cve","product","vendor"],
 		skipSearch: true
 	  },
 	  {
 		name: "CVE Details",
 		url: "https://www.cvedetails.com/",
 		desc: "CVE search engine with vendor and product breakdowns",
+		tags: ["cve"],
 		skipSearch: true
 	  }
   ],
   
-  "OTHERS": [
-  
+  "OTHERS": 
+  [  
+	{
+	  name: 'ThreatLens',
+	  url: 'https://threatlens.vercel.app/',
+	  desc: 'One-stop threat intelligence lookup for cybersecurity professionals',
+	  tags: ["url", "ip", "hash"],
+	  skipSearch: true
+	},
+
     {
 		name: "Uncoder IO",
 		url: "https://tdm.socprime.com/uncoder-ai",
 		desc: "Threat Detection Marketplace", 
+		tags: ["translate"],
 		skipSearch: true
+	},        
+	{ 
+		name:'Browserling', 
+		url:'https://www.browserling.com/',
+		desc:'Start browsing in 5 seconds!',
+		tags: ["browser"],
+		skipSearch: true
+	},    	
+	{ 
+		name:'Zscaler Zulu',
+		url:'https://zulu.zscaler.com/',
+		desc:'Zulu URL Risk Analyzer',
+		tags: ["url"],
+		skipSearch: true
+	},		
+	{ 
+		name:'Extract Links',
+		url:'https://hackertarget.com/extract-links/',
+		desc:'Extract Links from Page',
+		tags: ["url","website"],
+		skipSearch: true
+	},	    
+    { 
+		name:'CyberChef',
+		url:'https://gchq.github.io/CyberChef/',
+		desc:'CyberChef',
+		tags: ["encode","encryption","decode"],
+		skipSearch: true
+	},	
+	{ 
+		name:'Polyswarm',
+		url:'https://polyswarm.network/scan',
+		desc:'Scan Files or URLs for threats',
+		tags: ["upload files","url","QR code","malware analysis"],
+		skipSearch: true
+	},		
+	{ 
+		name:'Centralops All',
+		url:'https://centralops.net/co/',
+		desc:'Email, Ping, Traceroute, NsLookup - Dig ',
+		tags: ["url","ip","email","ping","traceroute","nslookup","dig"],
+		skipSearch: true
+	},	
+    { 
+		name:'Cloudflare Radar', 
+		url:'https://radar.cloudflare.com/scan',
+		desc:'URL Scanner',
+		tags: ["url"],
+		skipSearch: true
+	},	
+	{
+	  name: 'MetaBeta',
+	  url: 'https://meta.narka.io/',
+	  desc: 'Web-based tool for analyzing website metadata, including SSL certificates, HTTP headers, meta tags, and embedded resources. Useful for OSINT, SEO, and cybersecurity assessments.',
+	  tags: ["url", "web analysis", "metadata"],
+	  skipSearch: true
 	},
-    
-	{ name:'Intezer', url:'https://analyze.intezer.com/', desc:'intezer', skipSearch: true},
-    
-	{ name:'Browserling', url:'https://www.browserling.com/', desc:'Start browsing in 5 seconds!', skipSearch: true},
-    
-	{ name:'ANY.RUN', url:'https://app.any.run/', desc:'Interact with Windows, Linux, and Android OS directly and immediately see the feedback from your actions.', skipSearch: true},
-	
-    { name:'JoeSandbox', url:'https://www.joesandbox.com/', desc:'Sandbox - Deep Malware Analysis', skipSearch: true},
-	
-	{ name:'Zscaler Zulu', url:'https://zulu.zscaler.com/', desc:'Zulu URL Risk Analyzer', skipSearch: true},	
-	
-	{ name:'Extract Links', url:'https://hackertarget.com/extract-links/', desc:'Extract Links from Page', skipSearch: true},	
-    
-    { name:'CyberChef', url:'https://gchq.github.io/CyberChef/', desc:'CyberChef', skipSearch: true},
-	
-	{ name:'Polyswarm', url:'https://polyswarm.network/scan', desc:'Scan Files or URLs for threats', skipSearch: true},
-	
-    { name:'ThreatView', url:'https://threatview.io/', desc:'Actionable cyber threat intelligence feeds', skipSearch: true},
-	
-	{ name:'Centralops All', url:'https://centralops.net/co/', desc:'Email, Ping, Traceroute, NsLookup - Dig ', skipSearch: true},
-	
-    { name:'Cloudflare Radar', url:'https://radar.cloudflare.com/scan', desc:'URL Scanner', skipSearch: true},
-	
-    { name:'CurrentMillis', url:'https://currentmillis.com/', desc:'currentmillis', skipSearch: true},
-	
-    { name:'IPTools', url:'https://hackertarget.com/ip-tools/', desc:'IP Tools', skipSearch: true},
-   
-    { name:'Screenshot Machine', url:'https://www.screenshotmachine.com/', desc:'Screen Shot', skipSearch: true},
-	
-    { name:'Socradar Tools', url:'https://socradar.io/labs/soc-tools/ip-reputation', desc:'Soc Tools', skipSearch: true},
-	
-    { name:'Sophos Intel', url:'https://intelix.sophos.com/url', desc:'Submit your file or URL, get back reports from a full analysis using SophosLabs Intelix.', skipSearch: true},
-	
-    { name:'RocketReach', url:'https://rocketreach.co/person', desc:'Tell us what you are looking for: LinkedIn URL, Job Title, Industry etc.', skipSearch: true},
-	
-    { name:'OSINT Framework', url:'https://osintframework.com/', desc:'Osint Framework', skipSearch: true},
-	
-    { name:'DNS Info', url:'https://viewdns.info/', desc:'DNS Info', skipSearch: true},
-	
-    { name:'Google Advanced', url:'https://www.google.com/advanced_search', desc:'Google Advanced Search', skipSearch: true},
-	
-    { name:'Dork Search', url:'https://dorksearch.com/', desc:'Dork Search', skipSearch: true},
-    
-    { name:'OSINT Crypto', url:'https://github.com/aaarghhh/awesome_osint_blockchain_analysis', desc:'A list of useful Crypto resources for OSINT investigations', skipSearch: true},
-	
-    { name:'Gray Hat War Fare', url:'https://buckets.grayhatwarfare.com/', desc:'Lists open s3 buckets and helps you search for interesting files.', skipSearch: true},
-	
-	{ name:'Web Page to PDF', url:'https://www.ipvoid.com/webpage-to-pdf/', desc:'Convert Web Page to PDF', skipSearch: true},
-	
-	{ name:'Domain Age Checker', url:'https://www.ipvoid.com/domain-age-checker/', desc:'Domain age checker', skipSearch: true}	,
-	
-	{ name:'Info is Beauy', url:'https://informationisbeautiful.net/visualizations/worlds-biggest-data-breaches-hacks/', desc:'Selected events over 30,000 records stolen', skipSearch: true},
-	
+
+    { 
+		name:'Current Millis',
+		url:'https://currentmillis.com/',
+		desc:'currentmillis',
+		tags: ["convert time"],
+		skipSearch: true
+	},	
+    { 
+		name:'IPTools',
+		url:'https://hackertarget.com/ip-tools/',
+		desc:'IP Tools',
+		tags: ["ip tools"],
+		skipSearch: true
+	},   
+    { 
+		name:'Screenshot Machine',
+		url:'https://www.screenshotmachine.com/',
+		desc:'Screen Shot',
+		tags: ["screenshot","url"],
+		skipSearch: true
+	},	
+    { 
+		name:'Socradar Tools',
+		url:'https://socradar.io/labs/soc-tools/ip-reputation',
+		desc:'Soc Tools',
+		tags: ["ip","url","phishing","vpn","email"],
+		skipSearch: true
+	},	
+    { 
+		name:'Sophos Intel',
+		url:'https://intelix.sophos.com/url',
+		desc:'Submit your file or URL, get back reports from a full analysis using SophosLabs Intelix.',tags: ["upload files","url","malware analysis"],
+		skipSearch: true
+	},	
+    { 
+		name:'Rocket Reach',
+		url:'https://rocketreach.co/person',
+		desc:'Tell us what you are looking for: LinkedIn URL, Job Title, Industry etc.',
+		tags: ["people","company"],
+		skipSearch: true
+	},		
+    { 
+		name:'DNS Info',
+		url:'https://viewdns.info/',
+		desc:'DNS Info',
+		tags: ["dns"],
+		skipSearch: true
+	},	
+    { 
+		name:'Google Advanced',
+		url:'https://www.google.com/advanced_search',
+		desc:'Google Advanced Search',
+		tags: ["search"],
+		skipSearch: true
+	},	
+    { 
+		name:'Dork Search',
+		url:'https://dorksearch.com/',
+		desc:'Dork Search',
+		tags: ["search"],
+		skipSearch: true
+	},    
+    { 
+		name:'OSINT Crypto',
+		url:'https://github.com/aaarghhh/awesome_osint_blockchain_analysis',
+		desc:'A list of useful Crypto resources for OSINT investigations',
+		tags: ["crypto"],
+		skipSearch: true
+	},	
+    { 
+		name:'Gray Hat War Fare',
+		url:'https://buckets.grayhatwarfare.com/',
+		desc:'Lists open s3 buckets and helps you search for interesting files.',
+		tags: ["public buckets"],
+		skipSearch: true
+	},	
+	{
+	  name: 'OpenBuckets',
+	  url: 'https://www.openbuckets.io/',
+	  desc: 'AI-powered platform to discover and secure misconfigured cloud storage buckets across providers like AWS, GCP, Azure, and more.',
+	  tags: ["public buckets"],
+	  skipSearch: true
+	},
+
+	{ 
+		name:'Web Page to PDF',
+		url:'https://www.ipvoid.com/webpage-to-pdf/',
+		desc:'Convert Web Page to PDF',
+		tags: ["screenshot","url"],
+		skipSearch: true
+	},	
+	{ 
+		name:'Domain Age Checker',
+		url:'https://www.ipvoid.com/domain-age-checker/',
+		desc:'Domain age checker', 
+		tags: ["domain age"],
+		skipSearch: true
+	},	
+	{ 
+		name:'Info is Beauy', 
+		url:'https://informationisbeautiful.net/visualizations/worlds-biggest-data-breaches-hacks/', desc:'Selected events over 30,000 records stolen', 
+		tags: ["news"],
+		skipSearch: true
+	},	
 	{
 	  name: "BrightCloud Lookup",
 	  url: "https://www.brightcloud.com/tools/url-ip-lookup.php",
 	  desc: "Check URL or IP reputation using BrightCloud threat intelligence",
+	  tags: ["url","ip"],
 	  skipSearch: true
-	},
-	
+	},	
 	{
 	  name: "Cyscan",
 	  url: "https://cyscan.io/",
 	  desc: "All-in-one OSINT tool for scanning and analyzing domains, IPs, and URLs",
+	  tags: ["url"],
 	  skipSearch: true
-	},
-	
+	},	
 	{
 	  name: "Cybergordon",
 	  url: "https://cybergordon.com/",
 	  desc: "CyberGordon quickly provides you threat and risk information about observables like IP address or web domain.",
+	  tags: ["url","ip"],
 	  skipSearch: true
 	},
 	{
 	  name: "Palo Alto",
 	  url: "https://urlfiltering.paloaltonetworks.com/",
 	  desc: "Check URL categories and reputation using Palo Alto's threat intelligence",
+	  tags: ["url"],
 	  skipSearch: true
 	},
 	{
 	  name: "Regex 101",
 	  url: "https://regex101.com/",
 	  desc: "Regular expression",
+	  tags: ["regex"],
 	  skipSearch: true
 	},
 	{
 	  name: "Crack Station",
 	  url: "https://crackstation.net/",
 	  desc: "Free Password Hash Cracker",
+	  tags: ["password cracker"],
 	  skipSearch: true
 	},
 	{
 	  name: "Pic2Map",
 	  url: "https://www.pic2map.com/",
 	  desc: "Pic2Map Photo Location Viewer",
+	  tags: ["location"],
 	  skipSearch: true
 	},
 	{
 	  name: "Steganography",
 	  url: "https://stylesuxx.github.io/steganography/",
 	  desc: "Steganography- Encode,Decode",
+	  tags: ["encode","decode"],
 	  skipSearch: true
 	},
 	{
 	  name: "DOCX Metadata",
 	  url: "https://products.groupdocs.app/metadata/docx",
 	  desc: "View, read, edit and change DOCX properties",
+	  tags: ["upload files","metadata","malware analysis"],
 	  skipSearch: true
 	},
 	{
 		name: "STIX Project",
 		url: "https://stixproject.github.io/",
 		desc: "Structured Threat Information Expression (STIX)",
+		tags: ["threat intel"],
 		skipSearch: true
 	  },
 	  {
 		name: "TAXII Project",
 		url: "https://taxiiproject.github.io/",
 		desc: "Trusted Automated Exchange of Intelligence Information (TAXII) protocol for sharing cyber threat data",
+		tags: ["ioc"],
 		skipSearch: true
 	  },
 	  {
 		name: "Ransomware.live",
 		url: "https://www.ransomware.live/",
 		desc: "Live ransomware leak site tracker with data on incidents and groups",
+		tags: ["ransomware"],
 		skipSearch: true
 	  },
 	  {
 		name: "Ransom DB",
 		url: "https://www.ransom-db.com/",
 		desc: "Searchable ransomware leak and extortion database",
+		tags: ["ransomware"],
 		skipSearch: true
 	  },
 	  {
 		name: "CISA",
 		url: "https://www.cisa.gov/stopransomware",
 		desc: "CISA’s official ransomware guidance, alerts, and response center",
+		tags: ["ransomware"],
 		skipSearch: true
+	  },
+	  {
+		name: "AADInternals",
+		url: "https://aadinternals.com/osint/",
+		desc: "This Open-source Intelligence (OSINT) tool will extract openly available information for the given tenant.",
+		tags: ["tenant id","url","email","object id"],
+		skipSearch: true
+	  },
+	  {
+		  name: 'Pentester.com',
+		  url: 'https://pentester.com/',
+		  desc: 'Data breach monitoring, and automated data removals to help businesses identify and mitigate digital risks.',
+		  tags: ["data breach"],
+		  skipSearch: true
+	  },
+	  {
+		  name: 'OCCRP Aleph',
+		  url: 'https://data.occrp.org/',
+		  desc: 'leaks, and databases to help track assets, uncover corporate ownership, and analyze financial transactions.',
+		  tags: ["data breach","leaks"]
 	  }
+
+	  
   ],
   
-  "FILE & MALWARE ANALYSIS": [
-	  {
-		name: "Virus Total",
-		url: "https://www.virustotal.com/gui/home/upload",
-		desc: "Analyze suspicious files and URLs for malware", 
-		skipSearch: true
-	  },	 
-	  
+  "FILE & MALWARE ANALYSIS": 
+  [	  
 	  {
 		name: "YARA ify",
 		url: " https://yaraify.abuse.ch/scan/",
 		desc: "Hunt across all abuse.ch platforms with one simple query", 
-		skipSearch: true
-	  },
-	  
-	  {
-		name: "Any Run",
-		url: "https://app.any.run/",
-		desc: "", 
+		tags: ["upload files","malware analysis"],
 		skipSearch: true
 	  },	  
-	  
+	  {
+		name:'ANY.RUN',
+		url:'https://app.any.run/',
+		desc:'Interact with Windows, Linux, and Android OS directly and immediately see the feedback from your actions.',
+		tags: ["url","upload files","email","malware analysis"],
+		skipSearch: true
+	  },
 	  {
 		name: "Docguard.io",
 		url: "https://www.docguard.io/",
 		desc: "Analyze document-based malware", 
+		tags: ["upload files","hash","malware analysis"],
 		skipSearch: true
 	  },
 	  {
 		name: "FileScan.IO",
 		url: "https://www.filescan.io/",
 		desc: "File scanning and behavioral malware analysis", 
+		tags: ["upload files","url","malware analysis"],
 		skipSearch: true
 	  },
 	  {
 		name: "Cuckoo Sandbox",
 		url: "https://cuckoo.cert.ee/",
-		desc: "Open-source automated malware analysis system", 
+		desc: "Open-source automated malware analysis system",
+		tags: ["upload files","url","hash","malware analysis"],		
 		skipSearch: true
 	  },
 	  {
 		name: "CAPE Sandbox",
 		url: "https://capesandbox.com/",
 		desc: "Custom Analysis of Potentially Exploitable files (CAPE)", 
+		tags: ["upload files","malware analysis"],
 		skipSearch: true
 	  },
 	  {
 		name: "Joe Sandbox",
 		url: "https://www.joesandbox.com/",
-		desc: "Deep malware analysis sandbox supporting multiple platforms", 
+		desc: "Deep malware analysis sandbox supporting multiple platforms",
+		tags: ["upload files","malware analysis"],		
 		skipSearch: true
 	  },
 	  {
-		name: "Hybrid Analysis",
-		url: "https://www.hybrid-analysis.com/",
-		desc: "Free malware analysis powered by CrowdStrike Falcon Sandbox", 
+		name: "Malshare File",
+		url: " https://malshare.com/upload.php",
+		desc: "Upload a file to scan", 
+		tags: ["upload files","malware analysis"],
+		skipSearch: true
+	  },
+	  {
+		  name: 'Kunai Sandbox',
+		  url: 'https://sandbox.kunai.rocks/',
+		  desc: 'Web-based interface for analyzing Linux malware samples in isolated virtual environments using eBPF-based monitoring and network traffic capture.',
+		  tags: ["sandbox", "linux", "upload files","malware analysis"],
+		  skipSearch: true
+	  },
+	  {
+		name: "Metadata2go",
+		url: "https://www.metadata2go.com/",
+		desc: "Get All Metadata Info Of Your Files", 
+		tags: ["upload files","metadata"],
 		skipSearch: true
 	  }
-	  	  
+	  
 	],
 	
-	"MALWARE FEEDS": [
+	"MALWARE FEEDS": 
+	[
 	  {
 		name: "Malware Traffic Analysis",
 		url: "https://www.malware-traffic-analysis.net/",
 		desc: "PCAPs and write-ups from real-world malware traffic captures",
+		tags: ["ioc","malware sample"],
 		skipSearch: true
 	  },
 	  {
 		name: "Abuse.ch",
 		url: "https://abuse.ch/",
 		desc: "Swiss-based open threat intelligence project for tracking malware and botnets",
+		tags: ["ioc"],
 		skipSearch: true
 	  },
 	  {
 		name: "MalwareBazaar",
 		url: "https://bazaar.abuse.ch/",
 		desc: "Search and download malicious files shared by the community",
+		tags: ["ioc","malware sample"],
 		skipSearch: true
 	  },
 	  {
 		name: "Feodo Tracker",
 		url: "https://feodotracker.abuse.ch/",
 		desc: "Tracks IPs and C2s associated with the Feodo/Bredo malware family",
+		tags: ["ioc","c2"],
 		skipSearch: true
 	  },
 	  {
 		name: "SSL Blacklist (SSLBL)",
 		url: "https://sslbl.abuse.ch/",
 		desc: "Tracks suspicious SSL certificates and JA3 fingerprints",
+		tags: ["ioc","ssl"],
 		skipSearch: true
 	  },
 	  {
 		name: "URLhaus",
 		url: "https://urlhaus.abuse.ch/",
 		desc: "Database of malicious URLs used to distribute malware",
+		tags: ["ioc","url"],
 		skipSearch: true
 	  },
 	  {
 		name: "ThreatFox",
 		url: "https://threatfox.abuse.ch/",
 		desc: "Community-driven platform to share IOCs for active threats",
+		tags: ["ioc"],
 		skipSearch: true
 	  }
 	],
 
 	
   "AI TOOLS": [
-	  { name: 'ChatGPT', url: 'https://chatgpt.com/', desc: 'OpenAI’s powerful conversational AI', skipSearch: true },
-	  { name: 'Gemini', url: 'https://gemini.google.com/', desc: 'Google’s AI assistant powered by Bard', skipSearch: true },
-	  { name: 'Claude', url: 'https://claude.ai/', desc: 'Anthropic’s AI chatbot for research and productivity', skipSearch: true },
-	  { name: 'Copilot', url: 'https://copilot.microsoft.com/', desc: 'Microsoft’s AI companion across the web', skipSearch: true },
-	  { name: 'Perplexity', url: 'https://www.perplexity.ai/', desc: 'AI-powered answer engine for real-time research', skipSearch: true },
-	  { name: 'Consensus', url: 'https://consensus.app/', desc: 'AI tool to find scientific consensus from research papers', skipSearch: true },
-	  { name: 'Notion AI', url: 'https://www.notion.so/', desc: 'Notion’s AI assistant integrated into workspace tools', skipSearch: true },
-	  { name: 'Perplexity', url: 'https://www.perplexity.ai/', desc: 'perplexity', skipSearch: true },
-	  { name: 'Notebook LM', url: 'https://notebooklm.google.com/', desc: 'NotebookLM is an AI-powered research and writing assistant that works best with the sources you upload', skipSearch: true },
-	 
-	 { name: ' Cursor', url: 'https://www.cursor.com/', desc: 'Built to make you extraordinarily productive, Cursor is the best way to code with AI.', skipSearch: true },
-	 
-	 { name: ' Void', url: 'https://voideditor.com/', desc: 'The open source AI code editor.', skipSearch: true } 
-	 
+	  { 
+		name: 'ChatGPT',
+		url: 'https://chatgpt.com/',
+		desc: 'OpenAI’s powerful conversational AI',
+		tags: ["ai","general"],
+		skipSearch: true
+	  },
+	  { 
+		name: 'Gemini',
+		url: 'https://gemini.google.com/',
+		desc: 'Google’s AI assistant powered by Bard',
+		tags: ["ai","general"],
+		skipSearch: true 
+	  },
+	  { 
+		name: 'Claude',
+		url: 'https://claude.ai/',
+		desc: 'Anthropic’s AI chatbot for research and productivity',
+		tags: ["ai","research"],
+		skipSearch: true
+	  },
+	  {
+		  name: 'Copilot',
+		  url: 'https://copilot.microsoft.com/',
+		  desc: 'Microsoft’s AI companion across the web',
+		  tags: ["ai","general"],
+		  skipSearch: true 
+	  },
+	  {
+		  name: 'Perplexity',
+		  url: 'https://www.perplexity.ai/',
+		  desc: 'AI-powered answer engine for real-time research',
+		  tags: ["ai","general"],
+		  skipSearch: true 
+      },
+	  {
+		  name: 'Consensus',
+		  url: 'https://consensus.app/',
+		  desc: 'AI tool to find scientific consensus from research papers',
+		  tags: ["ai","research"],
+		  skipSearch: true
+	  },
+	  { 
+		  name: 'Notion AI',
+		  url: 'https://www.notion.so/',
+		  desc: 'Notion’s AI assistant integrated into workspace tools', 
+		  tags: ["ai","general"],
+		  skipSearch: true
+	  },
+	  { 
+		  name: 'Notebook LM',
+		  url: 'https://notebooklm.google.com/',
+		  desc: 'NotebookLM is an AI-powered research and writing assistant that works best with the sources you upload',
+		  tags: ["ai"],
+		  skipSearch: true 
+      },	 
+	  { 
+	    name: ' Cursor',
+	    url: 'https://www.cursor.com/',
+		desc: 'Built to make you extraordinarily productive, Cursor is the best way to code with AI.', 
+		tags: ["ai","coding"],
+		skipSearch: true 
+	  },	 
+	  { 
+		name: ' Void',
+		url: 'https://voideditor.com/',
+		desc: 'The open source AI code editor.',
+		tags: ["ai","coding"],
+		skipSearch: true 
+	  } 
 	],
 
-	"USERNAME & PEOPLE OSINT": [
-	  { name: 'NameChk', url: 'https://namechk.com', desc: 'Check username availability across social networks and domains', skipSearch: true },
-	  { name: 'WhatsMyName', url: 'https://whatsmyname.app', desc: 'Find usernames across 500+ websites', skipSearch: true },
-	  { name: 'NameCheckup', url: 'https://namecheckup.com', desc: 'Username and domain checker tool', skipSearch: true },
-	  { name: 'Whitepages', url: 'https://www.whitepages.com/', desc: 'US people search and contact info', skipSearch: true },
-	  { name: 'Spokeo', url: 'https://www.spokeo.com/', desc: 'People search engine using social networks, public records, and more', skipSearch: true },
-	  { name: 'ThatsThem', url: 'https://thatsthem.com/', desc: 'Free people search with phone, address, and email lookup', skipSearch: true },
-	  { name: 'VoterRecords', url: 'https://voterrecords.com/', desc: 'Public voter registration data', skipSearch: true },
-	  { name: 'TrueCaller', url: 'https://www.truecaller.com/', desc: 'Phone number lookup and spam call protection', skipSearch: true },
-	  { name: 'IntelX Facebook Tool', url: 'https://intelx.io/tools?tab=facebook', desc: 'Facebook search and discovery via IntelligenceX', skipSearch: true },
-	  { name: 'ImgInn', url: 'https://imginn.com/', desc: 'View Instagram profiles anonymously', skipSearch: true },
-	  { name: 'AI Hit Data', url: 'https://www.aihitdata.com/', desc: 'Track company and people changes across organizations', skipSearch: true }
+	"SOCIAL MEDIA & PEOPLE": 
+	[
+	  { 
+		name: 'Name Check',
+		url: 'https://namechk.com',
+		desc: 'Check username availability across social networks and domains',
+		tags: ["people","social media"],
+		skipSearch: true 
+	  },
+	  {
+		  name: 'Nitter',
+		  url: 'https://nitter.net/',
+		  desc: 'Privacy-respecting front-end for Twitter that doesnt require JavaScript or an account.',
+		  tags: ["people","twitter", "social media"],
+		skipSearch: true 
+	  },
+	  {
+		  name: 'Heavy.AI TweetMap',
+		  url: 'https://www.heavy.ai/demos/tweetmap',
+		  desc: 'Real-time map that visualizes geotagged tweets for trend analysis and monitoring.',
+		  tags: ["people","twitter", "social media"],
+		skipSearch: true 
+	  },
+	  {
+		  name: 'BirdHunt',
+		  url: 'https://birdhunt.huntintel.io/',
+		  desc: 'OSINT tool to search Twitter for images, keywords, and accounts.',
+		  tags: ["people","twitter", "social media"],
+		skipSearch: true 
+	  },
+	  {
+		  name: 'Botometer',
+		  url: 'https://botometer.osome.iu.edu/',
+		  desc: 'Tool that checks the activity of a Twitter account and gives it a score for how likely it is to be a bot.',
+		  tags: ["people","twitter", "social media"],
+		  skipSearch: true 
+	  },
+	   
+	   {
+		  name: 'Sotwe',
+		  url: 'https://www.sotwe.com',
+		  desc: 'Tracks Twitter trends, finds the most popular Twitter users, hashtags and places',
+		  tags: ["people", "twitter", "social media"],
+		  skipSearch: true
+	   },
+		{
+		  name: 'Omar Thing',
+		  url: 'https://omar-thing.nekoweb.org/',
+		  desc: 'Look Up - Find Any TikTok User Info',
+		  tags: ["people", "tiktok", "social media"],
+		  skipSearch: true
+		},	   
+	  { 
+		name: 'WhatsMyName',
+		url: 'https://whatsmyname.app',
+		desc: 'Find usernames across 500+ websites',
+		tags: ["people","social media"],
+		skipSearch: true 
+	  },
+	  
+	  {
+		  name: 'ExportData.io',
+		  url: 'https://www.exportdata.io/',
+		  desc: 'Extract and export Twitter data including followers, likes, and more.',
+		  tags: ["people","twitter", "social media"],
+		skipSearch: true 
+	  },
+	{
+	  name: 'Dumpor',
+	  url: 'https://dumpor.io/',
+	  desc: 'Instagram story viewer and analyzer for exploring profiles without logging in.',
+	  tags: ["people","instagram", "social media"],
+		skipSearch: true 
+	},
+	{
+	  name: 'InstaHunt',
+	  url: 'https://instahunt.huntintel.io/',
+	  desc: 'Free OSINT tool to find Instagram Places and Posts based on a location.',
+	  tags: ["people","instagram", "social media"],
+		skipSearch: true 
+	},
+	{
+	  name: 'Recruitin',
+	  url: 'https://recruitin.net/',
+	  desc: 'A tool to generate advanced Boolean search queries for LinkedIn, GitHub, and other platforms.',
+	  tags: ["people","LinkedIn", "social media"],
+		skipSearch: true 
+	},
+
+
+	  { 
+		name: 'Name Checkup',
+		url: 'https://namecheckup.com',
+		desc: 'Username and domain checker tool',
+		tags: ["people","social media"],
+		skipSearch: true 
+	  },
+	  { 
+		name: 'Whitepages',
+		url: 'https://www.whitepages.com/',
+		desc: 'US people search and contact info',
+		tags: ["people"],
+		skipSearch: true 
+	  },
+	  
+	  {
+		  name: 'IDCrawl',
+		  url: 'https://www.idcrawl.com/username-search',
+		  desc: 'A tool that uncovers social media profiles and real people behind a username across various platforms.',
+		  tags: ["username", "social media", "people search", "OSINT"],
+		  skipSearch: true
+	  },
+	  {
+		  name: 'osint.rocks',
+		  url: 'https://osint.rocks/',
+		  desc: 'Provides web-based access to the Sherlock and Maigret tools for username searches across social networks and websites.',
+		  tags: ["username", "social media"],
+		  skipSearch: true
+	  },	  
+	  { 
+		name: 'Thats Them',
+		url: 'https://thatsthem.com/',
+		desc: 'Free people search with phone, address, and email lookup',
+		tags: ["people","email","phone","name","vin"],
+		skipSearch: true 
+	  },
+	  { 
+		name: 'Spokeo',
+		url: 'https://www.spokeo.com/',
+		desc: 'People search engine using social networks, public records, and more',
+		tags: ["people","email","phone","address"],
+		skipSearch: true
+	  },	 
+	  { 
+		name: 'VoterRecords',
+		url: 'https://voterrecords.com/',
+		desc: 'Public voter registration data',
+		tags: ["people","political research"],
+		skipSearch: true 
+	  },
+	  { 
+		name: 'TrueCaller', 
+		url: 'https://www.truecaller.com/',
+		desc: 'Phone number lookup and spam call protection',
+		tags: ["people","phone"],
+		skipSearch: true 
+	  },
+	  { 
+		name: 'IntelX Facebook Tool',
+		url: 'https://intelx.io/tools?tab=facebook',
+		desc: 'Facebook search and discovery via IntelligenceX',
+		tags: ["people","social media","facebook"],
+		skipSearch: true
+	  },
+	  {
+		  name: 'People Search',
+		  url: 'https://freepeoplesearchtool.com/',
+		  desc: 'Type any combination of a person s name, location, phone number, or company.',
+		  tags: ["people"],
+		  skipSearch: true
+	  },
+
+	  { 
+		name: 'ImgInn',
+		url: 'https://imginn.com/',
+		desc: 'View Instagram profiles anonymously',
+		tags: ["people","social media","instagram"],
+		skipSearch: true 
+	  },
+	  { 
+		name: 'AI Hit Data',
+		url: 'https://www.aihitdata.com/',
+		desc: 'Track company and people changes across organizations',
+		tags: ["company"],
+		skipSearch: true 
+	  },
+	  { 
+		name: 'Back Ground Checks',
+		url: 'https://backgroundchecks.org/',
+		desc: 'Search Over 1 Billion Public Records',
+		tags: ["people"],
+		skipSearch: true 
+	  },
+	  { 
+		name: 'Instrack', 
+		url: 'https://instrack.app/', 
+		desc: 'search on instagram', 
+		tags: ["instagram","social media"],
+		skipSearch: true
+	  },
+	  { 
+		name: 'Groupda', 
+		url: 'https://groupda.com/telegram/group/find', 
+		desc: 'search telegram channel', 
+		tags: ["telegram"],
+		skipSearch: true
+	  },
+	  { 
+		name: 'Find People', 
+		url: 'https://findpeoplesearch.com/', 
+		desc: 'Enter the name of the person you are searching. ', 
+		tags: ["people", "US only"],
+		skipSearch: true
+	  },
+	  { 
+		name: 'Twitter Audit', 
+		url: 'https://twitteraudit.com/', 
+		desc: 'Audit Twitter accounts to estimate real vs fake followers', 
+		tags: ["social media", "Twitter"],
+		skipSearch: true
+	  },
+	  { 
+		name: 'Blockchair', 
+		url: 'https://blockchair.com/', 
+		desc: 'Explore and analyze data from multiple blockchains including Bitcoin and Ethereum', 
+		tags: ["blockchain", "crypto"],
+		skipSearch: true
+	  },
+	  { 
+		name: 'Bitcoin Whos Who', 
+		url: 'https://www.bitcoinwhoswho.com/', 
+		desc: 'Lookup Bitcoin wallet addresses and report scammers', 
+		tags: ["crypto", "Bitcoin", "blockchain"],
+		skipSearch: true
+	  },
+	  { 
+		name: 'SynapsInt', 
+		url: 'https://synapsint.com/', 
+		desc: 'Search and analyze usernames across platforms for OSINT investigations', 
+		tags: ["Bitcoin", "url", "ip", "twitter", "email", "phone", "cve", "ssl"],
+		skipSearch: true
+	  },
+	  { 
+		name: 'Black Book Online', 
+		url: 'https://www.blackbookonline.info/', 
+		desc: 'Free public records search directory for people, property, and criminal records', 
+		tags: ["public records", "people"],
+		skipSearch: true
+	  },
+	  { 
+		name: 'GenealogyBank SSDI', 
+		url: 'https://www.genealogybank.com/explore/ssdi/all', 
+		desc: 'Search the Social Security Death Index (SSDI) for genealogical research and deceased individuals', 
+		tags: ["people","public records"],
+		skipSearch: true 
+	  },
+	  {
+		  name: 'FaceCheck.ID',
+		  url: 'https://facecheck.id/',
+		  desc: 'Facial recognition search engine for identifying people from photos.',
+		  tags: ["face", "image", "social", "search"],
+		skipSearch: true 
+	  },
+	{
+	  name: 'TinEye',
+	  url: 'https://tineye.com/',
+	  desc: 'Reverse image search engine to find image sources and track usage.',
+	  tags: ["image", "reverse search"],
+		skipSearch: true 
+	},
+	{
+	  name: 'Copyseeker',
+	  url: 'https://copyseeker.net/',
+	  desc: 'Tool to detect AI-generated and plagiarized content.',
+	  tags: ["image", "reverse search", "AI", "duplicate detection", "copyright"],
+		skipSearch: true 
+	},
+	{
+	  name: 'Lenso.ai',
+	  url: 'https://lenso.ai/en',
+	  desc: 'AI-powered tool for reverse image search and visual content analysis.',
+	  tags: ["image", "reverse search", "facial recognition", "visual analysis"],
+		skipSearch: true 
+	},
+	{
+	  name: 'PimEyes',
+	  url: 'https://pimeyes.com/en',
+	  desc: 'Online face search engine using facial recognition to find images of a person across the internet.',
+	  tags: ["image", "reverse search", "facial recognition"],
+		skipSearch: true 
+	},
+	{
+	  name: 'GitHuntX',
+	  url: 'https://githuntx.vercel.app/',
+	  desc: 'GitHuntX fetches user GitHub profiles, original repositories, commits, and emails.',
+	  tags: ["github", "repositories"],
+	  skipSearch: true
+	},
+	{
+	  name: 'GitHub Compare',
+	  url: 'https://www.githubcompare.com/',
+	  desc: 'Compare GitHub repositories side by side to analyze differences in code, commits, issues, and more.',
+	  tags: ["github", "compare", "repositories"],
+	  skipSearch: true
+	},
+	{
+	  name: 'Profile Summary',
+	  url: 'https://profile-summary-for-github.com/search',
+	  desc: 'A tool to generate professional summaries and statistics based on your GitHub profile and activity.',
+	  tags: ["github", "profile","repositories"],
+	  skipSearch: true
+	},
+	{
+	  name: 'RepoTimeline',
+	  url: 'https://repostimeline.nazifbara.com/',
+	  desc: 'Visual timeline of all activity on a GitHub repository, including commits, pull requests, issues, and more.',
+	  tags: ["github", "timeline", "repository"],
+	  skipSearch: true
+	},
+	{
+	  name: 'OSSInsight',
+	  url: 'https://ossinsight.io/',
+	  desc: 'Open-source software repository insights platform, offering detailed analytics on GitHub repositories.',
+	  tags: ["github", "repository"],
+	  skipSearch: true
+	},
+	{
+	  name: 'LeakPeek',
+	  url: 'https://leakpeek.com/',
+	  desc: 'Search across over 8 billion public records to find leaked emails, passwords, usernames, IP addresses, and more.',
+	  tags: ["data breach"],
+	  skipSearch: true
+	},
+	{
+	  name: 'Crunchbase',
+	  url: 'https://www.crunchbase.com/',
+	  desc: 'Business intelligence platform providing company insights, funding, and leadership details.',
+	  tags: ["business", "company data"],
+	  skipSearch: true
+	},
+	{
+	  name: 'OpenCorporates',
+	  url: 'https://opencorporates.com/',
+	  desc: 'Largest open database of companies worldwide, providing corporate records and ownership details.',
+	  tags: ["business", "company data"],
+	  skipSearch: true
+	},
+	{
+	  name: 'Dun-Bradstreet)',
+	  url: 'https://www.dnb.com/',
+	  desc: 'Global business directory offering financial, risk, and corporate data insights.',
+	  tags: ["business", "company data"],
+	  skipSearch: true
+	},
+	{
+	  name: 'Panjiva',
+	  url: 'https://panjiva.com/search',
+	  desc: 'Global trade intelligence platform tracking import/export shipments.',
+	  tags: ["business", "company data"],
+	  skipSearch: true
+	},
+	{
+	  name: 'Open Sanctions',
+	  url: 'https://www.opensanctions.org/',
+	  desc: 'Database of sanctioned individuals, organizations, and entities worldwide.',
+	  tags: ["business", "company data"],
+	  skipSearch: true
+	},
+	{
+	  name: 'Tendersinfo',
+	  url: 'https://www.tendersinfo.com/',
+	  desc: 'Global database for government and private sector tenders and procurement opportunities.',
+	  tags: ["business", "company data"],
+	  skipSearch: true
+	},
+	{
+	  name: 'Nonprofits',
+	  url: 'https://projects.propublica.org/nonprofits/',
+	  desc: 'Database of U.S. nonprofit organizations with financial and operational details.',
+	  tags: ["business", "company data"],
+	  skipSearch: true
+	}
+
 	],
 
-	"WEBSITE OSINT TOOLS": [
-	  { name: "VisualPing", url: "https://visualping.io/", desc: "Monitor website changes.", skipSearch: true },
-	  { name: "Backlink Watch", url: "https://www.backlinkwatch.com/index.php", desc: "Check who links back to a website.", skipSearch: true },
-	  { name: "Find Subdomains", url: "https://pentest-tools.com/information-gathering/find-subdomains-of-domain", desc: "Discover subdomains.", skipSearch: true },
-	  { name: "Wayback Machine", url: "https://web.archive.org/web/20250000000000*/", desc: "View historical snapshots of websites(archive)."}
+	"WEBSITE OSINT TOOLS": 
+	[
+	  { 
+		name: "VisualPing",
+		url: "https://visualping.io/",
+		desc: "Monitor website changes.",
+		tags: ["webmonitoring"],
+		skipSearch: true 
+	  },
+	  { 
+		name: "Backlink Watch",
+		url: "https://www.backlinkwatch.com/index.php",
+		desc: "Check who links back to a website.",
+		tags: ["inbound links"],
+		skipSearch: true 
+	  },
+	  { 
+		name: "Find Subdomains", 
+		url: "https://pentest-tools.com/information-gathering/find-subdomains-of-domain", 
+		desc: "Discover subdomains.", 
+		tags: ["url","website"],
+		skipSearch: true 
+	  },
+	  { 
+		name: "Wayback Machine",
+		url: "https://web.archive.org/web/20250000000000*/",
+		desc: "View historical snapshots of websites(archive).",
+		tags: ["url","website"]
+	  }
 	],
 	
-	"PRIVATE SEARCH ENGINES": [
-	  { name: 'Startpage', url: 'https://www.startpage.com/', desc: 'Private search engine that doesn’t track you', skipSearch: true },
-	  { name: 'DuckDuckGo', url: 'https://duckduckgo.com/', desc: 'Privacy-focused search engine with no tracking' , skipSearch: true},
-	  { name: 'Qwant', url: 'https://www.qwant.com/', desc: 'French search engine that respects your privacy' , skipSearch: true},
-	  { name: 'Search Encrypt', url: 'https://www.searchencrypt.com/home', desc: 'Encrypted search engine that protects your history' , skipSearch: true},
-	  { name: 'Gibiru', url: 'https://gibiru.com/', desc: 'Anonymous search engine for uncensored content' , skipSearch: true},
-	  { name: 'Ecosia', url: 'https://www.ecosia.org/', desc: 'Eco-friendly private search engine that plants trees' , skipSearch: true},
-	  { name: 'Swisscows', url: 'https://swisscows.com/en', desc: 'Swiss private search engine with semantic search' , skipSearch: true},
-	  { name: 'Mojeek', url: 'https://www.mojeek.com/', desc: 'Independent search engine with its own index' , skipSearch: true},
-	  { name: 'MetaGer', url: 'https://metager.org/', desc: 'Open-source, privacy-respecting metasearch engine' , skipSearch: true},
-	  { name: 'Disconnect Search', url: 'https://search.disconnect.me/', desc: 'Private search engine powered by major providers', skipSearch: true }
+	"PRIVATE SEARCH ENGINES": 
+	[
+	  { 
+		name: 'Startpage',
+		url: 'https://www.startpage.com/',
+		desc: 'Private search engine that doesn’t track you',
+		tags: ["search engines"],
+		skipSearch: true 
+	  },
+	  { name: 'DuckDuckGo', url: 'https://duckduckgo.com/', desc: 'Privacy-focused search engine with no tracking' , tags: ["search engines"],skipSearch: true},
+	  { name: 'Qwant', url: 'https://www.qwant.com/', desc: 'French search engine that respects your privacy' ,tags: ["search engines"], skipSearch: true},
+	  { name: 'Search Encrypt', url: 'https://www.searchencrypt.com/home', desc: 'Encrypted search engine that protects your history' ,tags: ["search engines"], skipSearch: true},
+	  { name: 'Gibiru', url: 'https://gibiru.com/', desc: 'Anonymous search engine for uncensored content' , tags: ["search engines"],skipSearch: true},
+	  { name: 'Ecosia', url: 'https://www.ecosia.org/', desc: 'Eco-friendly private search engine that plants trees' , tags: ["search engines"],skipSearch: true},
+	  { name: 'Swisscows', url: 'https://swisscows.com/en', desc: 'Swiss private search engine with semantic search' , tags: ["search engines"],skipSearch: true},
+	  { name: 'Mojeek', url: 'https://www.mojeek.com/', desc: 'Independent search engine with its own index' , tags: ["search engines"],skipSearch: true},
+	  { name: 'MetaGer', url: 'https://metager.org/', desc: 'Open-source, privacy-respecting metasearch engine' , tags: ["search engines"],skipSearch: true},
+	  { name: 'Disconnect Search', url: 'https://search.disconnect.me/', desc: 'Private search engine powered by major providers', tags: ["search engines"],skipSearch: true }
 	],
 	
 	"REAL TIME THREAT MAPS": [
@@ -998,250 +2428,346 @@
 		name: "Checkpoint",
 		url: "https://threatmap.checkpoint.com/",
 		desc: "Global cyber attack visualization from Checkpoint", 
+		tags: ["threat maps"],
 		skipSearch: true
 	  },
 	  {
 		name: "Kaspersky",
 		url: "https://cybermap.kaspersky.com/",
 		desc: "Live cyber threat intelligence map by Kaspersky", 
+		tags: ["threat maps"],
 		skipSearch: true
 	  },
 	  {
 		name: "Radware Live",
 		url: "https://livethreatmap.radware.com/",
 		desc: "Real-time DDoS and attack map by Radware", 
+		tags: ["threat maps"],
 		skipSearch: true
 	  },
 	  {
 		name: "Digital Attack",
 		url: "https://www.digitalattackmap.com/",
-		desc: "Visualizes DDoS attacks using data from Google and Arbor Networks", 
+		desc: "Visualizes DDoS attacks using data from Google and Arbor Networks",
+		tags: ["threat maps"],		
 		skipSearch: true
 	  },
 	  {
 		name: "NETSCOUT Horizon",
 		url: "https://horizon.netscout.com/",
-		desc: "Interactive cyber threat landscape by NETSCOUT", 
+		desc: "Interactive cyber threat landscape by NETSCOUT",
+		tags: ["threat maps"],		
 		skipSearch: true
 	  },
 	  {
 		name: "Bitdefender",
 		url: "https://threatmap.bitdefender.com/",
-		desc: "Live view of global cybersecurity threats by Bitdefender", 
+		desc: "Live view of global cybersecurity threats by Bitdefender",
+		tags: ["threat maps"],		
 		skipSearch: true
 	  },
 	  {
 		name: "Fortinet",
 		url: "https://fortiguard.fortinet.com/threat-map",
-		desc: "Live global threat intelligence from FortiGuard Labs", 
+		desc: "Live global threat intelligence from FortiGuard Labs",
+		tags: ["threat maps"],		
 		skipSearch: true
 	  },
 	  {
 		name: "Imperva Cyber Map",
 		url: "https://www.imperva.com/cyber-threat-attack-map",
-		desc: "Live global attack visualizer by Imperva", 
+		desc: "Live global attack visualizer by Imperva",
+		tags: ["threat maps"],
 		skipSearch: true
 	  },
 	  {
 		name: "Threatbutt Map",
 		url: "https://threatbutt.com/map",
-		desc: "Parody cyber threat map with real-time style flair", 
+		desc: "Parody cyber threat map with real-time style flair",
+		tags: ["threat maps"],
 		skipSearch: true
 	  },
 	  {
 		name: "Cisco Talos Pulse",
 		url: "https://talosintelligence.com/fullpage_maps/pulse",
-		desc: "Cisco Talos threat intelligence visualization", 
+		desc: "Cisco Talos threat intelligence visualization",
+		tags: ["threat maps"],
 		skipSearch: true
 	  },
 	  {
 		name: "SonicWall",
 		url: "https://securitycenter.sonicwall.com/m/page/worldwide-attacks",
-		desc: "Real-time visualization of global cyber attacks from SonicWall", 
+		desc: "Real-time visualization of global cyber attacks from SonicWall",
+		tags: ["threat maps"],		
 		skipSearch: true
-	  }
-	  
+	  }	  
 	],	
 	
 	"PHISHING ANALYSIS": [
 	  {
 		name: "PhishTank",
 		url: "https://www.phishtank.com/",
-		desc: "Community-based phishing verification and feeds", 
+		desc: "Community-based phishing verification and feeds",
+		tags: ["phishing"],
 		skipSearch: true
-	  },
-	  
+	  },	  
 	  { 
 	    name:'Check Phish', url:'https://checkphish.bolster.ai/', 
 	    desc:'CheckPhish is a free real-time URL scanner providing deep threat intelligence, including screenshots, certificates, DOM Tree, and hosting details. ', 
+		tags: ["phishing","live scan"],
 		skipSearch: true},
 	  
 	  {
 		name: "ScamSearch",
 		url: "https://scamsearch.io/",
 		desc: "Search engine for known scam and phishing websites", 
+		tags: ["phishing","scam database"],
 		skipSearch: true
 	  },
 	  {
 		name: "dnstwist",
 		url: "https://dnstwist.it/",
 		desc: "Phishing domain scanner", 
-		skipSearch: true
-	  },
-	  {
-		name: "Bluecoat Site Review",
-		url: "https://sitereview.bluecoat.com/#/lookup-result/",
-		desc: "Check web reputation and categories of URLs"
-	  },
-	  {
-		name: "Fortiguard Web Filter",
-		url: "https://fortiguard.com/webfilter",
-		desc: "Fortinet web filter and threat classification", 
+		tags: ["phishing","live scan"],
 		skipSearch: true
 	  },
 	  {
 		name: "dnstwister.report",
 		url: "https://dnstwister.report/",
 		desc: "Monitor Your Domain for Impersonators", 
+		tags: ["url"],
 		skipSearch: true
-	  },
-	  
+	  },	  
 	  {
-		name: "PhishTool",
+		name: "Phish Tool",
 		url: "https://www.phishtool.com/",
 		desc: "Phishing investigation and case management tool", 
+		tags: ["phishing"],
 		skipSearch: true
-	  },
-	  
+	  },	  
 	  {
 		name: "OpenPhish",
 		url: "https://openphish.com/",
 		desc: "Automated phishing threat intelligence and feed", 
+		tags: ["phishing"],tags: ["code"],
 		skipSearch: true
 	  }
 	],
+
+  "CODE SEARCH": [
+    {name: "Grep",url: "https://grep.app/",desc: "Codes Search",tags: ["code search"], skipSearch: true},
 	
-	"APT GROUPS": [
-	  {
-		name: "MITRE APT Groups",
-		url: "https://attack.mitre.org/groups/",
-		desc: "List of known APT groups tracked by MITRE ATT&CK",
+	{name: "Search Code",url: "https://searchcode.com/",desc: "Search Code",tags: ["code search"],skipSearch: true
+	},
+	
+	{name: "Publicwww",url: "https://publicwww.com/",desc: "Source Code Search Engine",tags: ["code search"], skipSearch: true
+	}
+  ],
+  "NEWS": 
+  [
+	  { 
+		name: "Bleeping Computer", 
+		url: "https://www.bleepingcomputer.com/", 
+		desc: "Security news and malware analysis",
+		tags: ["news"],		
 		skipSearch: true
 	  },
-	  
-	  {
-		name: "Cyber Kill Chain",
-		url: "https://www.lockheedmartin.com/en-us/capabilities/cyber/cyber-kill-chain.html",
-		desc: "Lockheed Martin’s Cyber Kill Chain for mapping intrusion stages",
+	  { 
+		name: "Dfir Report",
+		url: "https://thedfirreport.com/",
+		desc: "DFIR writeups and attack reports",
+		tags: ["news","dfir reports"],
+		skipSearch: true 
+	  },	  	  
+	  { 
+		name: "The Hacker News", 
+		url: "https://thehackernews.com/", 
+		desc: "Cybersecurity news & threat updates",
+		tags: ["news"],		
+		skipSearch: true
+	  },	  
+	  { 
+		name: "Security Week", 
+		url: "https://www.securityweek.com/", 
+		desc: "Latest security & industry trends",
+		tags: ["news"],
+		skipSearch: true
+	  },	  
+	  { 
+		name: "Wired", 
+		url: "https://www.wired.com/category/security/", 
+		desc: "Security and privacy in tech",
+		tags: ["news"],		
+		skipSearch: true
+	  },	  
+	  { 
+		name: "Cyware News", 
+		url: "https://social.cyware.com/cyber-security-news-articles", 
+		desc: "Threat news and analysis",
+		tags: ["news","articles"],
+		skipSearch: true
+	  },	
+	  { 
+		name: "Cyware Events", 
+		url: "https://social.cyware.com/cyber-security-events", 
+		desc: "Cybersecurity Events",
+		tags: ["news","events"],
+		skipSearch: true
+	  },	  
+	  { 
+		name: "Helpnet Security", 
+		url: "https://www.helpnetsecurity.com/", 
+		desc: "Security news and updates",
+		tags: ["news"],		
+		skipSearch: true
+	  },	
+	  { 
+		name: "Helpnet Events", 
+		url: "https://www.helpnetsecurity.com/all-events/", 
+		desc: "Security news and updates",
+		tags: ["news","events"],		
+		skipSearch: true
+	  },	  
+ 	  { 
+		name: "Dark Reading", 
+		url: "https://www.darkreading.com/", 
+		desc: "Darkreading news",
+		tags: ["news"],		
+		skipSearch: true
+	  },	  
+	  { 
+		name: "Infosecurity", 
+		url: "https://www.infosecurity-magazine.com", 
+		desc: "Security news magazine",
+		tags: ["news"],
+		skipSearch: true
+	  },	  
+	  { 
+		name: "Tech Urls", 
+		url: "https://techurls.com/", 
+		desc: "Tech Urls by Browserling",
+		tags: ["news","headlines"],
+		skipSearch: true
+	  },	   	   
+	  { 
+		name: "Deepfake News", 
+		url: "https://airtable.com/appbaNIPuKlFYCQb5/shrOx9Glbml4gSsvC/tblwskbzfrSEtL7VZ/viwgvwC3zmdCkSuKE", desc: "Deepfake News Center ",
+		tags: ["news"],
 		skipSearch: true
 	  },
-	  
-	  {
-		name: "SOCRadar ThreatActors",
-		url: "https://socradar.io/threat-intelligence/threat-actors/",
-		desc: "Browse known threat actors and APT groups by SOCRadar",
+	  { 
+		name: "Week In OSINT",
+		url: "https://sector035.nl/articles/category:week-in-osint",
+		desc: "Weekly OSINT roundup",
+		tags: ["news","osint"],
 		skipSearch: true
 	  },
-	  
-	  {
-		name: "OSINT Framework",
-		url: "https://osintframework.com/",
-		desc: "Collection of OSINT tools and resources including APT tracking",
+	  { 
+		name:'Info is Beauy', 
+		url:'https://informationisbeautiful.net/visualizations/worlds-biggest-data-breaches-hacks/', desc:'Selected events over 30,000 records stolen', 
+		tags: ["news"],
+		skipSearch: true
+	  }
+	],
+
+  "PODCASTS": 
+  [
+	  { 
+		name: "Janes Podcast",
+		url: "https://podcast.janes.com/public/68/The-World-of-Intelligence-50487d09",
+		desc: "Military and intelligence",
+		tags: ["podcast","osint","2025"],
+		skipSearch: true
+	  },	  
+	  { 
+		name: "Layer 8 Podcast",
+		url: "https://podcasts.apple.com/us/podcast/layer-8-podcast/id1495404846",
+		desc: "Human side of social engineering",
+		tags: ["podcast","osint","2025"],
 		skipSearch: true
 	  },
-	  
 	  {
-		name: "Malfrat's Map",
-		url: "https://map.malfrats.industries/",
-		desc: "Malfrat's OSINT Map",
+		  name: "Malwarebytes",
+		  url: "https://www.malwarebytes.com/blog/category/podcast",
+		  desc: "Malwarebytes security podcast",
+		  tags: ["podcast","2025"],
+		  skipSearch: true 
+	  },
+	  { 
+		name: "The OSINT Bunker",
+		url: "https://rss.com/podcasts/theosintbunker/",
+		desc: "Security & OSINT roundtable",
+		tags: ["podcast","osint","2024"],
+		skipSearch: true
+	  },
+	  { 
+		name: "Breadcrumbs", 
+		url: "https://open.spotify.com/show/1PHveMFjdgyxJJAZJWWF8G", 
+		desc: "TraceLabs podcast on OSINT" , 
+		tags: ["podcast","osint","2024"],
+		skipSearch: true
+	  },	 	  
+	  { 
+		name: "Intel Techniques",
+		url: "https://inteltechniques.com/podcast.html", 
+		desc: "Privacy and OSINT talk" ,
+		tags: ["podcast","osint","2023"],
+		skipSearch: true
+	  },
+	  { 
+		name: "OSINT Show",
+		url: "https://open.spotify.com/show/1vqRjYaq1pPcCdCTtMmFg9",
+		desc: "OSINT interviews and discussion",
+		tags: ["podcast","osint","2021"],
 		skipSearch: true
 	  }	 
 	],
-
-
-  "CODE SEARCH": [
-    {name: "Grep",url: "https://grep.app/",desc: "Codes Search", skipSearch: true},
-	
-	{name: "Search Code",url: "https://searchcode.com/",desc: "Search Code",skipSearch: true
-	},
-	
-	{name: "Publicwww",url: "https://publicwww.com/",desc: "Source Code Search Engine", skipSearch: true
-	}
-  ],
-  "NEWS": [
-	  { name: "Dfir Report", url: "https://thedfirreport.com/", desc: "DFIR writeups and attack reports", skipSearch: true },
-	  
-	  { name: "Week In OSINT", url: "https://sector035.nl/articles/category:week-in-osint", desc: "Weekly OSINT roundup" , skipSearch: true},
-	  
-	  { name: "Bleeping Computer", url: "https://www.bleepingcomputer.com/", desc: "Security news and malware analysis" , skipSearch: true},
-	  
-	  { name: "The Hacker News", url: "https://thehackernews.com/", desc: "Cybersecurity news & threat updates" , skipSearch: true},
-	  
-	  { name: "Security Week", url: "https://www.securityweek.com/", desc: "Latest security & industry trends" , skipSearch: true},
-	  
-	  { name: "Threat Post", url: "https://threatpost.com/", desc: "Cybersecurity research and alerts" , skipSearch: true},
-	  
-	  { name: "Wired", url: "https://www.wired.com/category/security/", desc: "Security and privacy in tech" , skipSearch: true},
-	  
-	  { name: "Cyware", url: "https://cyware.com/cyber-security-news-articles", desc: "Threat news and analysis" , skipSearch: true},
-	  
-	  { name: "Helpnet Security", url: "https://www.helpnetsecurity.com/", desc: "Security news and updates" , skipSearch: true},
-	 
- 	  { name: "Darkreading", url: "https://www.darkreading.com/", desc: "Darkreading news" , skipSearch: true},
-	  
-	  { name: "Infosecurity", url: "https://www.infosecurity-magazine.com", desc: "Security news magazine" , skipSearch: true},
-	  
-	  { name: "Techurls", url: "https://techurls.com/", desc: "Tech Urls by Browserling" , skipSearch: true},	   
-	   
-	  { name: "Deepfake News", url: "https://airtable.com/appbaNIPuKlFYCQb5/shrOx9Glbml4gSsvC/tblwskbzfrSEtL7VZ/viwgvwC3zmdCkSuKE", desc: "Deepfake News Center " , skipSearch: true},
-	],
-
-  "PODCASTS": [
-	  { name: "Breadcrumbs", url: "https://open.spotify.com/show/1PHveMFjdgyxJJAZJWWF8G", desc: "TraceLabs podcast on OSINT" , skipSearch: true},
-	  
-	  { name: "Layer 8 Podcast", url: "https://podcasts.apple.com/us/podcast/layer-8-podcast/id1495404846", desc: "Human side of social engineering" , skipSearch: true},
-	  
-	  { name: "OSINT Show", url: "https://open.spotify.com/show/1vqRjYaq1pPcCdCTtMmFg9", desc: "OSINT interviews and discussion" , skipSearch: true},
-	  
-	  { name: "The OSINT Bunker", url: "https://rss.com/podcasts/theosintbunker/", desc: "Security & OSINT roundtable" , skipSearch: true},
-	  
-	  { name: "Intel Techniques", url: "https://inteltechniques.com/podcast.html", desc: "Privacy and OSINT talk" , skipSearch: true},
-	  
-	  { name: "Janes Podcast", url: "https://podcast.janes.com/public/68/The-World-of-Intelligence-50487d09", desc: "Military and intelligence" , skipSearch: true},
-	  
-	  { name: "Malwarebytes", url: "https://www.malwarebytes.com/blog/category/podcast", desc: "Malwarebytes security podcast", skipSearch: true }
-	],
 	
 	"POSTERS": [
-	  { name: "13cubed", url: "https://training.13cubed.com/downloads", desc: "13cubed Posters" , skipSearch: true},
+	  { name: "13cubed", url: "https://training.13cubed.com/downloads", desc: "13cubed Posters" , tags: ["posters"], skipSearch: true},
 	  
-	  { name: "SANS", url: "https://www.sans.org/posters/?content-language=english", desc: "SANS Posters" , skipSearch: true}
+	  { name: "SANS", url: "https://www.sans.org/posters/?content-language=english", desc: "SANS Posters" , tags: ["posters"], skipSearch: true}
 	  
 	],
 	
-	"USEFUL THINGS": [
-	  {
+	"USEFUL THINGS": 
+	[
+	  { 
 		name: "Lolbas",
 		url: "https://lolbas-project.github.io/",
-		desc: "Living Off the Land Binaries and Scripts" , skipSearch: true
+		desc: "Living Off the Land Binaries and Scripts",
+		tags: ["LivingOffTheLand"],		
+		skipSearch: true
 	  },
-	  
 	  {
 		name: "GTFOBins",
 		url: "https://gtfobins.github.io/",
-		desc: "GTFOBins is a curated list of Unix binaries that can be used to bypass local security restrictions in misconfigured systems." , skipSearch: true
+		desc: "GTFOBins is a curated list of Unix binaries that can be used to bypass local security restrictions in misconfigured systems." ,
+		tags: ["LivingOffTheLand"],
+		skipSearch: true
 	  },
-	  
 	  {
 		name: "Echotrail",
 		url: "https://www.echotrail.io/insights",
-		desc: "Process insights: description, frequency, command usage" , skipSearch: true
+		desc: "Process insights: description, frequency, command usage",
+		tags: ["LivingOffTheLand"],
+		skipSearch: true
 	  },
 	  {
 		name: "Ruler Project",
 		url: "https://ruler-project.github.io/ruler-project/RULER/remote/",
-		desc: "Project RULER: Remote execution references" , skipSearch: true
+		desc: "Project RULER: Remote execution references" , 
+		tags: ["rmm"], 
+		skipSearch: true
+	  },
+	  {
+		name: "Hack the Logs",
+		url: " https://www.hackthelogs.com/mainpage.html",
+		desc: "Project RULER: Remote execution references" , 
+		tags: ["logs"], 
+		skipSearch: true
 	  }
+	 
 	]
 };
 	
@@ -1249,45 +2775,112 @@
 	{
 		return str.replaceAll("/", "%252F").replaceAll(":", "%253A");
 	}
+	
+function renderCategory(title, items, openByDefault = false) 
+{
+  //console.log(`[DEBUG] renderCategory called for "${title}". items.length=${items.length}`);
+  const section = document.createElement('div');
+  section.className = 'section' + (openByDefault ? ' open' : '');
 
-    function renderCategory(title, items) 
-	{
-      const section = document.createElement('div'); section.className = 'section';
-      section.innerHTML = `<h2>${title}</h2><div class="grid"></div>`;
-      const grid = section.querySelector('.grid');
-      items.forEach(tool => 
+  // Header with click-to-toggle
+  const header = document.createElement('h2');
+  header.textContent = title;
+  header.className = 'category-header';
+  header.onclick = () => {
+	  section.classList.toggle('open');
+	  openCategories[title] = section.classList.contains('open');
+	};
+  section.appendChild(header);
+
+  // Collapsible content
+  const content = document.createElement('div');
+  content.className = 'category-content';
+
+  // Grid
+  const grid = document.createElement('div');
+  grid.className = 'grid';
+
+  items.forEach(tool => {
+	//console.log(`[DEBUG] Rendering tool: ${tool && tool.name}`);
+    
+    const card = document.createElement('div');
+    card.className = 'card';
+
+    const link = document.createElement('a');
+    link.textContent = tool.skipSearch ? `🔶 ${tool.name}` : tool.name;
+    link.href = tool.url;
+    link.target = '_blank';
+    link.dataset.base = tool.url;
+
+    const tip = document.createElement('div');
+    tip.className = 'tooltip';
+    tip.textContent = tool.desc;
+
+    card.append(link, tip);
+
+    // Tag block (show only first 3 visually)
+    if (tool.tags && tool.tags.length > 0) {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'tag-wrapper';
+
+      const scrollBox = document.createElement('div');
+      scrollBox.className = 'tag-scroll';
+
+      tool.tags.slice(0, 3).forEach(tag => {
+        const span = document.createElement('span');
+        span.className = 'tag';
+        span.textContent = tag;
+        span.onclick = () => addTagToFilter(tag);
+        scrollBox.appendChild(span);
+      });
+
+      wrapper.appendChild(scrollBox);
+      card.appendChild(wrapper);
+
+      // Tooltip with all tags
+      if (tool.desc) {
+        const allTags = tool.tags.join(', ');
+        tip.textContent = `${tool.desc} — Tags: [${allTags}]`;
+      }
+    }
+    grid.append(card);
+  });
+
+  // Drag and drop enabled only on large screens
+	  if (window.innerWidth > 768) 
 	  {
-          const card = document.createElement('div'); 
-		  card.className = 'card';
-
-		  const link = document.createElement('a'); 
-		  link.textContent = tool.skipSearch ? `🔶 ${tool.name}` : tool.name;
-		  link.href = tool.url; 
-		  link.target = '_blank';
-
-		  const tip = document.createElement('div'); 
-		  tip.className = 'tooltip'; 
-		  tip.textContent = tool.desc;
-
-		  card.append(link, tip);
-		  grid.append(card);
-	  });
-	  
-	  // ✅ Enable drag-and-drop only on desktop/tablet (not mobile)
-		if (window.innerWidth > 768) 
-		{
 		  Sortable.create(grid, {
 			group: 'shared',
 			animation: 150,
 			ghostClass: 'dragging',
-			onEnd: saveOrderToLocalStorage
+			onEnd: function(evt) {
+			  // Debug info
+			  const item = evt.item; // dragged card
+			  const from = evt.from.closest('.section')?.querySelector('h2')?.textContent?.trim();
+			  const to = evt.to.closest('.section')?.querySelector('h2')?.textContent?.trim();
+			  const cardName = item.querySelector('a')?.textContent?.trim() || item.textContent?.trim();
+			  console.log(
+				`[DEBUG] Card "${cardName}" moved! Category: "${from}" → "${to}", Old place: ${evt.oldIndex}, New place: ${evt.newIndex}`
+			  );
+			  // save it normal order
+			  saveOrderToLocalStorage();
+			}
 		  });
 		}
-      return section;
-    }
+  content.appendChild(grid);
+  section.appendChild(content);
+  return section;
+}
 
 	// ✅ Auto-fill and trigger ADD from URL ?ip=... or ?q=...
-window.addEventListener('DOMContentLoaded', () => {
+	// onload
+window.addEventListener('DOMContentLoaded', () => 
+{
+  // Initialize category order if not set
+  if (!localStorage.getItem('osintCategoryOrder')) 
+  {
+	saveCategoryOrderToLocalStorage(categoriesOrder);
+  }
   const params = new URLSearchParams(window.location.search);
   const value = params.get('ip') || params.get('q'); // support ?ip= or ?q=
 
@@ -1306,96 +2899,162 @@ window.addEventListener('DOMContentLoaded', () => {
   if (typeof renderAll === 'function') 
   {
     const originalRenderAll = renderAll;
-    window.renderAll = function (...args) {
+    window.renderAll = function (...args) 
+	{
       originalRenderAll.apply(this, args);
       addArrowToFavorites(); // inject arrow after each render
     };
     addArrowToFavorites(); // run once on initial load
   }
+  
+  console.log('DOMContentLoaded');
+  
 });
 
 
-function saveOrderToLocalStorage() 
-{
+function saveOrderToLocalStorage() {
+  const prevOrder = JSON.parse(localStorage.getItem('osintToolOrder')) || {};
   const order = {};
 
-  document.querySelectorAll('.section').forEach(section => {
-    const category = section.querySelector('h2').textContent.trim();
-    const toolNames = Array.from(section.querySelectorAll('.card a')).map(a =>
-      a.textContent.trim().replace(/^🔶 /, '') // remove icon if present
+  // Loop over all possible categories (not just the ones in the DOM)
+  Object.keys(categories).forEach(category => {
+    // Try to find the current DOM order for this category
+    const section = Array.from(document.querySelectorAll('.section')).find(
+      s => s.querySelector('h2') && s.querySelector('h2').textContent.trim() === category
     );
-    order[category] = toolNames;
+
+    let toolNames = [];
+    if (section) {
+      toolNames = Array.from(section.querySelectorAll('.card a')).map(a =>
+        a.textContent.trim().replace(/^🔶 /, '')
+      );
+    }
+
+    // For categories visible in the DOM, use their current order
+    if (toolNames.length > 0) {
+      order[category] = toolNames;
+    } else if (prevOrder[category]) {
+      // For hidden categories, preserve previous order
+      order[category] = prevOrder[category];
+    } else {
+      // For brand new categories, use the default order
+      order[category] = categories[category].map(t => t.name);
+    }
   });
 
   localStorage.setItem('osintToolOrder', JSON.stringify(order));
+  console.log('[DEBUG] osintToolOrder in localStorage:', order);
 }
 
+
+
+
+
+
 	//  drag-and-drop Functions
-	function loadOrderFromLocalStorage() 
-	{
-	  try 
-	  {
-		const saved = JSON.parse(localStorage.getItem('osintToolOrder'));
-		if (!saved) return categories;
+function loadOrderFromLocalStorage() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('osintToolOrder'));
+    if (!saved) return categories;
 
-		const newCategories = {};
+    const newCategories = {};
+    const allTools = Object.values(categories).flat();
+    const toolMap = allTools.reduce((acc, tool) => {
+      acc[tool.name] = tool;
+      return acc;
+    }, {});
+    const assigned = new Set(); // <== This ensures each tool is only in one category
 
-		// Flatten all tools and build a lookup map by tool name
-		const allTools = Object.values(categories).flat();
-		const toolMap = allTools.reduce((acc, tool) => {
-		  acc[tool.name] = tool;
-		  return acc;
-		}, {});
-
-		// Reassign tools to categories based on saved order
-		for (const [category, toolNames] of Object.entries(saved)) 
-		{
-		  newCategories[category] = toolNames.map(name => toolMap[name]).filter(Boolean);
-		}
-
-		// Add back any tools that weren't saved (e.g. newly added later)
-		const usedTools = new Set(Object.values(newCategories).flat().map(t => t.name));
-		for (const [category, tools] of Object.entries(categories)) {
-		  const extras = tools.filter(t => !usedTools.has(t.name));
-		  if (!newCategories[category]) 
-		  {
-			newCategories[category] = extras;
-		  } 
-		  else 
-		  {
-			newCategories[category].push(...extras);
-		  }
-		}
-
-		return newCategories;
-	  } 
-	  catch (e) 
-	  {
-		return categories;
-	  }
-}	
-	  
-    function renderAll(filter = '') 
-	{
-      const container = document.getElementById('content');
-	  container.innerHTML = '';
-	  const orderedCategories = loadOrderFromLocalStorage();
-
-	  //This ensures the saved order is respected when rendering.
-	  Object.entries(orderedCategories).forEach(([title, items]) => {
-		const filteredItems = filter
-		  ? items.filter(t => t.name.toLowerCase().includes(filter) || t.desc.toLowerCase().includes(filter))
-		  : items;
-		container.append(renderCategory(title, filteredItems));
-	  });
+    // Step 1: Place tools from saved order, ensuring no duplicates across categories
+    for (const [category, toolNames] of Object.entries(saved)) {
+      newCategories[category] = [];
+      toolNames.forEach(name => {
+        if (toolMap[name] && !assigned.has(name)) {
+          newCategories[category].push(toolMap[name]);
+          assigned.add(name);
+        }
+      });
     }
+
+    // Step 2: Fill in any missing tools that weren't already assigned
+    for (const [category, tools] of Object.entries(categories)) {
+      if (!newCategories[category]) newCategories[category] = [];
+      tools.forEach(tool => {
+        if (!assigned.has(tool.name)) {
+          newCategories[category].push(tool);
+          assigned.add(tool.name);
+        }
+      });
+    }
+
+    return newCategories;
+  } catch (e) {
+    return categories;
+  }
+}
+
+
+
+	
+	function saveCategoryOrderToLocalStorage(categoryOrder) 
+	{
+		localStorage.setItem('osintCategoryOrder', JSON.stringify(categoryOrder));
+	}
+	function loadCategoryOrderFromLocalStorage() 
+	{
+	  return JSON.parse(localStorage.getItem('osintCategoryOrder')) || Object.keys(categories);
+	}
+	  
+// Used a global object to track open/closed categories
+let openCategories = {}; // { 'SEARCH_TOOLS': true, 'IP_INFO': false, ... }
+
+function renderAll(filter = '') 
+{
+  //console.log('[DEBUG] renderAll called. Filter:', filter);
+  const container = document.getElementById('content');
+  container.innerHTML = '';
+  
+  // Always use user's category order if set, else use your fixed default
+  const categoryOrder = loadCategoryOrderFromLocalStorage() || categoriesOrder;
+  // Always use user's tool order, merged with any new tools
+  const orderedCategories = loadOrderFromLocalStorage();
+
+  categoryOrder.forEach(title => {
+    const items = orderedCategories[title] || [];
+    const filteredItems = items.filter(t =>
+      (!filter || t.name.toLowerCase().includes(filter) || t.desc.toLowerCase().includes(filter)) &&
+      ([...activeTags].length === 0 || [...activeTags].some(tag => t.tags?.includes(tag)))
+    );
+	
+	// DEBUG: Log what we're about to render
+    //console.log(`[DEBUG] Rendering category: "${title}" with ${filteredItems.length} items. Items:`, filteredItems);
+	
+    const open = openCategories[title] || (
+      title === 'YOUR FAVORITES' ||
+      ((filter || activeTags.size) && filteredItems.length > 0)
+    );
+
+    if (filteredItems.length > 0 || title === 'YOUR FAVORITES') {
+      container.append(renderCategory(title, filteredItems, open));
+    }
+  });
+  
+  // End of renderAll
+  //console.log('[DEBUG] renderAll complete.');
+  
+}
+
+
+
+
 
     document.getElementById('filter').addEventListener('input', e => 
 	{
       renderAll(e.target.value.trim().toLowerCase());
     });
 	
-	document.getElementById('filter').addEventListener('dblclick', () => {
+	document.getElementById('filter').addEventListener('dblclick', () => 
+	{
 	  const filterInput = document.getElementById('filter');
 	  filterInput.value = '';
 	  renderAll(); // Clear filter and re-render all tools
@@ -1416,22 +3075,21 @@ function sanitizeInput(str)
 // Inject arrow element near the YOUR FAVORITES heading
 function addArrowToFavorites() 
 {
-  const headers = document.querySelectorAll('.section h2');
-  headers.forEach(header => {
-    if (header.textContent.trim() === 'YOUR FAVORITES' && !header.parentElement.querySelector('.favorites-launch')) {
-      const wrapper = document.createElement('div');
-      wrapper.className = 'favorites-header';
+    const headers = document.querySelectorAll('.section h2');
+	headers.forEach(header => {
+	  if (header.textContent.trim() === 'YOUR FAVORITES' && !header.parentElement.querySelector('.favorites-launch')) {
+		const wrapper = document.createElement('div');
+		wrapper.className = 'favorites-header';
+		const arrow = document.createElement('span');
+		arrow.className = 'favorites-launch';
+		arrow.title = 'Open all YOUR FAVORITES tools';
+		arrow.innerText = '↗️';
+		arrow.onclick = openFavorites;
+		wrapper.append(header.cloneNode(true), arrow);
+		header.replaceWith(wrapper);
+	  }
+	});
 
-      const arrow = document.createElement('span');
-      arrow.className = 'favorites-launch';
-      arrow.title = 'Open all YOUR FAVORITES tools';
-      arrow.innerText = '↗️';
-      arrow.onclick = openFavorites;
-
-      wrapper.append(header.cloneNode(true), arrow);
-      header.replaceWith(wrapper);
-    }
-  });
 }
 
 
@@ -1494,6 +3152,10 @@ function updateLinks(e)
 		? `https://metadefender.opswat.com/results/ip/${base64Value}`
 		: `https://metadefender.opswat.com/results/domain/${base64Value}`;
 	}
+	else if (t.originalUrl.includes("fofa.info")) {
+	  const base64Value = btoa(cleaned);
+	  t.url = `https://en.fofa.info/result?qbase64=${encodeURIComponent(base64Value)}`;
+	}
 
 	else if (t.name === "IBM X-Force") {
 	  t.url = isIP
@@ -1531,7 +3193,7 @@ function updateLinks(e)
   }, 500);
 }
 	
-renderAll();
+
 //Create input validation 
 function validateInput(input)
 {
@@ -1606,8 +3268,55 @@ function openFavorites()
     }
   }
 }
+////////////////////
+// JavaScript Functions for Filter Control
+	const activeTags = new Set();
 
+	function addTagToFilter(tag) 
+	{
+	  if (activeTags.has(tag)) return;
+	  activeTags.add(tag);
+	  renderTagFilter();
+
+	  // ✅ Use this to combine filter box AND tag filters
+	  const filterValue = document.getElementById('filter').value.trim().toLowerCase();
+	  renderAll(filterValue);
+	}
+
+	function removeTagFromFilter(tag) 
+	{
+	  activeTags.delete(tag);
+	  renderTagFilter();
+
+	  // ✅ Use this to combine filter box AND tag filters
+	  const filterValue = document.getElementById('filter').value.trim().toLowerCase();
+	  renderAll(filterValue);
+	}
+
+
+	function renderTagFilter() 
+	{
+	  const container = document.getElementById("tag-filter-bar");
+	  container.innerHTML = "";
+
+	  activeTags.forEach(tag => {
+		const tagElem = document.createElement("div");
+		tagElem.className = "filter-tag";
+		tagElem.textContent = tag;
+		tagElem.onclick = () => removeTagFromFilter(tag);
+		container.appendChild(tagElem);
+	  });
+	}
+
+
+
+
+
+
+renderAll();
+////////////////////
   </script>	 
+  
 <footer style="margin-top: 3rem; text-align: center; font-size: 0.95rem; padding: 1rem 0; border-top: 1px solid var(--muted); color: var(--muted); transition: all 0.3s ease;">
   🛡️ Made for defenders, by 
   <a href="https://www.linkedin.com/in/ekremozdemir19/" 
@@ -1616,12 +3325,259 @@ function openFavorites()
      style="color: var(--primary); font-weight: 600; text-decoration: none; transition: color 0.3s ease;">
     Ekrem O.
   </a>
-  
   <p>
   <img src="https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fekky19.github.io%2Fosint%2F&countColor=%23263759" alt="Visitors Badge" />
   </p>
 
 </footer>
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "53ddfce71190425eb86420f0190ad437"}'></script><!-- End Cloudflare Web Analytics -->
+
+<!-- INFO BUTTON POP UP -->
+
+<div id="info-modal" class="modal">
+  <div class="modal-content">
+  <span class="close-button">&times;</span>
+  <h2 style="font-size: 1.8rem; margin-bottom: 1rem;">📘 OSINT Navigator Guide</h2>
+  <div style="line-height: 1.7; font-size: 0.95rem;">
+    <p><span style="color:#60a5fa;">🔹 Step 1:</span> Enter any <strong>IP address, domain, URL</strong>, or <strong>hash</strong> into the search bar.</p>
+    
+    <p><span style="color:#8b5cf6;">➕ Step 2:</span> Click the <code>ADD</code> button. This will:</p>
+    <ul style="margin-left: 1.5rem;">
+      <li>Automatically append your input to each relevant OSINT tool’s URL.</li>
+      <li>Update all tool cards with active links based on your query.</li>
+    </ul>
+
+    <p><span style="color:#f59e0b;">⚡ Step 3:</span> Click any tool to open it — your search input is already preloaded!</p>
+
+    <hr style="margin: 1rem 0; border-color: #444;" />
+
+    <p><strong>💡 Bonus Tips:</strong></p>
+    <ul style="margin-left: 1.5rem;">
+      <li>You can <u>reorder cards</u> by dragging and dropping them within or between categories.</li>
+      <li>Changes are saved automatically in your browser (locally).</li>
+      <li>Use the filter bar to quickly find tools by name or keyword (e.g., "dns", "threat").</li>
+      <li>Double-click the filter to reset it.</li>
+      <li>Tools marked with 🔶 work standalone and do not reflect search queries.</li>
+    </ul>
+
+    <p><strong>🧼 To reset layout:</strong> Open console and run:</p>
+    <pre style="background:#1e293b;padding:0.5rem;border-radius:6px;"><code>localStorage.removeItem("osintToolOrder");</code></pre>
+  </div>
+  </div>
+</div>
+
+<script>
+  const infoButton = document.querySelector('.info-button');
+  const modal = document.getElementById('info-modal');
+  const closeButton = document.querySelector('.close-button');
+
+  infoButton.addEventListener('click', () => {
+    modal.style.display = 'block';
+  });
+
+  closeButton.addEventListener('click', () => {
+    modal.style.display = 'none';
+  });
+
+  window.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.style.display = 'none';
+    }
+  });
+</script>
+<!-- INFO BUTTON POP UP -->
+
+<!-- DELETE INPUT -->
+<script>
+  document.getElementById("dashboard-title").ondblclick = function () 
+  {
+    document.getElementById("search").value = "";
+  };
+</script>
+<!-- DELETE INPUT -->
+
+<!-- 🧠 Chatbot Panel -->
+<div id="chatbot-panel" style="
+  display: none;
+  position: fixed;
+  top: 60px;
+  right: 50px;
+  width: 460px;
+  background: white;
+  color: #1f2937;
+  border-radius: 16px;
+  padding: 0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  font-family: 'Segoe UI', sans-serif;
+  overflow: hidden;
+">
+
+  <!-- Header -->
+  <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px; font-weight: 600; border-bottom: 1px solid #e5e7eb;">
+    <span style="display: flex; align-items: center; font-size: 16px;">
+      OSINT Assistant
+    </span>
+    <button onclick="toggleChatPanel()" style="background: transparent; color: #6b7280; border: none; font-size: 20px; cursor: pointer;" title="Close">✕</button>
+  </div>
+
+  <!-- Body -->
+  <div style="text-align: center; padding: 32px 24px 24px;">
+    <div style="font-size: 40px; opacity: 0.3; margin-bottom: 16px;">🤖</div>
+    <h2 style="margin-bottom: 8px; font-size: 18px; font-weight: 600; color: #4b5563;">Hello! I'm your OSINT Assistant</h2>
+    <p style="font-size: 14px; color: #6b7280;">
+      Ask me about investigation techniques, tool recommendations, or specific indicators.
+    </p>
+  </div>
+
+  <!-- Footer -->
+  <div style="display: flex; align-items: center; padding: 16px; border-top: 1px solid #e5e7eb; background-color: #f9fafb;">
+    <input id="chat-input" placeholder="Ask about OSINT tools, or investigation techniques" style="
+      flex: 1;
+      border: 1.5px solid #3b82f6;
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 14px;
+      outline: none;
+    ">
+    <button id="chat-send" onclick="askAI()" style="
+      background: #e5e7eb;
+      color: #9ca3af;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 16px;
+      margin-left: 8px;
+      font-weight: 500;
+      cursor: not-allowed;
+    ">Send</button>
+  </div>
+
+  <!-- Response Box -->
+  <div id="chat-response" style="
+    padding: 16px;
+    font-size: 13px;
+    white-space: pre-wrap;
+    max-height: 300px;
+    overflow-y: auto;
+    background-color: #f9fafb;
+    border-top: 1px solid #e5e7eb;
+  "></div>
+</div>
+
+<script>
+  const chatInput = document.getElementById('chat-input');
+  const chatSend = document.getElementById('chat-send');
+
+  chatInput.addEventListener('input', () => {
+    const hasText = chatInput.value.trim().length > 0;
+
+    if (hasText) 
+	{
+      chatSend.disabled = false;
+      chatSend.style.background = '#3b82f6';  // vibrant blue
+      chatSend.style.color = '#ffffff';       // white text
+      chatSend.style.cursor = 'pointer';
+    } 
+	else 
+	{
+      chatSend.disabled = true;
+      chatSend.style.background = '#e5e7eb';  // gray background
+      chatSend.style.color = '#9ca3af';       // gray text
+      chatSend.style.cursor = 'not-allowed';
+    }
+  });
+</script>
+
+<!-- 🧠 Chatbot Panel -->
+
+<!-- 🧠 Chatbot Functions -->
+<script>
+	
+	//block defines the toggleChatPanel() function that shows or hides your AI assistant panel (#chatbot-panel) when you click the 🤖 button or ❌ close button.
+  function toggleChatPanel() 
+  {
+    const panel = document.getElementById('chatbot-panel');
+    panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+	
+	if (window.innerWidth <= 768) 
+	{
+		panel.style.width = '100vw';
+		panel.style.height = '65vh';
+		panel.style.left = '0';
+		panel.style.right = '0';
+		panel.style.bottom = '0';
+    }
+  }
+
+  async function askAI() 
+  {
+	const input = document.getElementById('chat-input').value.trim();
+    if (!input) return;
+
+	chatSend.style.background = '#10b981'; // green
+	chatSend.style.color = '#ffffff';
+	chatSend.style.transition = 'background 0.4s ease';
+	
+    const res = await fetch('http://66.135.8.209:3001/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: input })
+    });
+
+    const data = await res.json();
+    document.getElementById('chat-response').innerText = data.reply || 'No response';
+
+    // Auto-filter tool section by tag
+    // Handle AI-provided tags (array of tags)
+	if (data.tags && Array.isArray(data.tags)) {
+	  // Clear all existing tags
+	  activeTags.clear();
+
+	  // Add all tags from AI (avoiding duplicates)
+	  data.tags.forEach(tag => activeTags.add(tag));
+	  renderTagFilter();
+
+	  // Immediately re-render the tools list to filter by these tags
+	  renderAll(document.getElementById('filter').value.trim().toLowerCase());
+	} else if (data.tag) {
+	  // Fallback: handle a single tag (old API style)
+	  activeTags.clear();
+	  activeTags.add(data.tag);
+	  renderTagFilter();
+	  renderAll(document.getElementById('filter').value.trim().toLowerCase());
+	}
+
+
+	
+	setTimeout(() => 
+	{
+	  chatSend.style.background = '#3b82f6'; // blue
+	  chatSend.style.color = '#ffffff';
+	  chatSend.style.cursor = 'pointer';
+	}, 300);  
+  }
+  
+  // use enter like send button
+  document.getElementById('chat-input').addEventListener('keydown', function (e) 
+  {
+    if (e.key === 'Enter' && !e.shiftKey) 
+	{
+      e.preventDefault();
+      const sendBtn = document.getElementById('chat-send');
+      if (!sendBtn.disabled) 
+	  {
+        askAI();
+      }
+    }
+  });
+  
+  document.getElementById('chat-input').addEventListener('dblclick', function () 
+  {
+	this.value = '';
+  });  
+</script>
+
+<!-- 🧠 Chatbot Functions -->
+
 </body>
 </html>
