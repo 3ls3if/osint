@@ -63,7 +63,7 @@ If you add new tools or categories and they don’t show up, clear your local la
 ## 🧩 OSINT Navigator Chrome Extension
 
 **[🛒 Chrome Extension — Install on Chrome Web Store](https://chromewebstore.google.com/detail/osint-navigator/bejlkjkhhlbepgecabbjopdjkelfjnim?utm_source=item-share-cb)**
-[🔌 Explore the PLUGINS directory for extra integrations and tools](https://github.com/ekky19/osint/tree/main/PLUGINS)
+**[🔌 Explore the PLUGINS directory for extra integrations and tools](https://github.com/ekky19/osint/tree/main/PLUGINS)**
 
 Right-click any IP, domain, URL, or hash in Chrome and send it straight to OSINT Navigator.
 
