@@ -86,6 +86,15 @@ Right-click any IP, domain, URL, or hash in Chrome and send it straight to OSINT
 
 ---
 
+🐞 Known Issues
+Adding a tool card to Favorites while filter is active may cause Favorites to display incorrectly or lose the newly added item.
+
+Workaround: Clear the filter before adding tools to Favorites to avoid this bug.
+
+This issue will be fixed in the next version!
+
+---
+
 ## 👨‍💻 Credits
 
 🛡️ Made for defenders, by [Ekrem O.](https://github.com/ekky19)
