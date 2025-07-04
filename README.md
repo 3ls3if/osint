@@ -111,7 +111,7 @@ This project is licensed under the **Creative Commons Attribution-NonCommercial 
 * **Attribution** — credit the author with a link
 * **NonCommercial** — you may not use for commercial purposes without permission
 
-> For commercial use, [contact me](mailto:your@email.com) for licensing inquiries.
+> For commercial use, [contact me](mailto:ekremozdemir99@gmail.com) for licensing inquiries.
 
 [🔗 View Full License](https://creativecommons.org/licenses/by-nc/4.0/)
 
