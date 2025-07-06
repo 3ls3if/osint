@@ -3582,7 +3582,7 @@ renderAll();
 	chatSend.style.color = '#ffffff';
 	chatSend.style.transition = 'background 0.4s ease';
 	
-    const res = await fetch('http://66.135.8.209:3001/api/chat', {
+    const res = await fetch('https://osintchatbot.ddns.net/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ message: input })
